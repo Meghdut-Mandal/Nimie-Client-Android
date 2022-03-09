@@ -4,19 +4,33 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.meghdut.nimie.model.ChatMessage
+import com.meghdut.nimie.model.LocalConversation
 import com.meghdut.nimie.model.LocalUser
 
 
-@Database(entities = [LocalUser::class], version = 1)
+@Database(entities = [LocalUser::class,LocalConversation::class, ChatMessage::class], version = 1)
 abstract class NimieDb : RoomDatabase() {
 
     abstract fun userDao(): LocalUserDao
 
+    abstract fun chatDao(): ChatDao
+
+    abstract fun conversationDao(): ConversationDao
+
     companion object {
-        fun create(context: Context): NimieDb = Room.databaseBuilder(
-            context,
-            NimieDb::class.java,
-            "nimie_db"
-        ).build()
+
+        private var db: NimieDb? = null
+
+        fun create(context: Context): NimieDb {
+            if (db == null) {
+                db = Room.databaseBuilder(
+                    context,
+                    NimieDb::class.java,
+                    "nimie_db"
+                ).build()
+            }
+            return db!!
+        }
     }
 }

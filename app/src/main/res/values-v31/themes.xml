@@ -17,6 +17,6 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">@color/blue_black</item>
         <!-- Customize your theme here. -->
-        <item name="android:background">@drawable/spalsh_bg</item>
+        <item name="android:background">@color/blue_black</item>
     </style>
 </resources>

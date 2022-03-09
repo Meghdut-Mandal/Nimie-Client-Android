@@ -3,8 +3,7 @@ package com.meghdut.nimie.repository
 import android.util.Base64
 import com.meghdut.nimie.dao.NimieDb
 import com.meghdut.nimie.model.LocalUser
-import com.meghdut.nimie.model.RegisterUser
-import com.meghdut.nimie.network.NimieApi
+import com.meghdut.nimie.network.GrpcClient
 import java.security.KeyPair
 import java.security.KeyPairGenerator
 import java.security.PrivateKey
@@ -13,23 +12,22 @@ import kotlin.random.Random
 
 class UserRepository(val db: NimieDb) {
 
-    val nimieApi = NimieApi.instance
-    val userDao = db.userDao()
+
+    private val userDao = db.userDao()
 
 
-    fun newUser(): LocalUser {
+    suspend fun newUser(): LocalUser {
         val (publicKey, privateKey) = generateKeyPair()
         val name =
             nameList[Random.nextInt(nameList.size)] + " " + nameList[Random.nextInt(nameList.size)]
         val avatar = avatar(name)
-        val execute = nimieApi.registerUser(RegisterUser(publicKey)).execute()
-        if (execute.isSuccessful) {
-            val userCreated = execute.body() ?: throw Exception("Unable to connect to server!")
-            val userLocal = LocalUser(userCreated.userId, publicKey, privateKey, name, avatar, 1)
-            userDao.clearData()
-            userDao.insert(userLocal)
-            return userLocal
-        } else throw Exception(execute.errorBody()?.string())
+
+        val registerUserId = GrpcClient.createUser(publicKey)
+        val userLocal = LocalUser(registerUserId, publicKey, privateKey, name, avatar, 1)
+        userDao.clearData()
+        userDao.insert(userLocal)
+
+        return userLocal
     }
 
     fun generateKeyPair(): Pair<String, String> {

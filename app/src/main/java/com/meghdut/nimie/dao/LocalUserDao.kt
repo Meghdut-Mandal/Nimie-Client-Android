@@ -13,6 +13,8 @@ interface LocalUserDao {
     @Insert(onConflict = IGNORE)
     fun insert(localUser: LocalUser)
 
+
+
     @Update
     fun update(localUser: LocalUser)
 

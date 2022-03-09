@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#292F3F"
-    tools:context=".MainActivity" >
+    tools:context=".ui.MainActivity" >
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline2">
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/userDp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:srcCompat="@tools:sample/avatars" />
@@ -33,14 +33,13 @@
         app:layout_constraintGuide_percent="0.08" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/userName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto"
+        android:fontFamily="@font/roboto_medium"
         android:text="Meghdut Mandal"
         android:textColor="#FFFFFF"
         android:textSize="27sp"
-        android:textStyle="bold"
         android:typeface="sans"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
@@ -109,6 +108,20 @@
         app:layout_constraintTop_toTopOf="@+id/editTextTextPersonName"
         app:srcCompat="@drawable/add_statu_button"
         tools:ignore="SpeakableTextPresentCheck" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/conversationList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName"
+        tools:listitem="@layout/conversation_item" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

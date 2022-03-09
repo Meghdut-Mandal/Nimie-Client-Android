@@ -9,14 +9,18 @@
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.25364583333333335" />
         <entry key="app/src/main/res/drawable/add_statu_button.xml" value="0.25364583333333335" />
         <entry key="app/src/main/res/drawable/chat_bg.xml" value="0.3472222222222222" />
+        <entry key="app/src/main/res/drawable/conversation_item.xml" value="0.309765625" />
         <entry key="app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.2421875" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.3472222222222222" />
         <entry key="app/src/main/res/drawable/search_bg.xml" value="0.3921875" />
         <entry key="app/src/main/res/drawable/search_button.xml" value="0.3921875" />
         <entry key="app/src/main/res/drawable/spalsh_bg.xml" value="0.3921875" />
         <entry key="app/src/main/res/drawable/start_chatting_buton_bg.xml" value="0.3921875" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.37426691761583697" />
+        <entry key="app/src/main/res/layout/activity_chat.xml" value="0.171875" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.1765625" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.20356684437364947" />
+        <entry key="app/src/main/res/layout/conversation_item.xml" value="0.4505224339274739" />
       </map>
     </option>
   </component>

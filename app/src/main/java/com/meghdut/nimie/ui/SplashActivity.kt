@@ -1,4 +1,4 @@
-package com.meghdut.nimie
+package com.meghdut.nimie.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle

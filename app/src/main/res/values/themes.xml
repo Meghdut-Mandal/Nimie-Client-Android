@@ -14,6 +14,11 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="roundedImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">30dp</item>
+    </style>
+
     <style name="Theme.Nimie.Splash" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
 
@@ -27,6 +32,6 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">@color/blue_black</item>
         <!-- Customize your theme here. -->
-        <item name="android:background" >@drawable/spalsh_bg</item>
+        <item name="android:background" >@color/blue_black</item>
     </style>
 </resources>
