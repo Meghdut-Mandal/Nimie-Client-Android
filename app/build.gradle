@@ -78,7 +78,7 @@ dependencies {
 
 
     // Integration with activities
-    implementation 'androidx.activity:activity-compose:1.4.0'
+    implementation 'androidx.activity:activity-ktx:1.4.0'
     // Compose Material Design
     implementation 'androidx.compose.material:material:1.1.1'
     // Animations
@@ -105,6 +105,17 @@ dependencies {
     implementation("io.coil-kt:coil:1.4.0")
     implementation("io.coil-kt:coil-svg:1.4.0")
     implementation 'com.airbnb.android:lottie:4.2.2'
+
+
+
+    // Material Dialogs
+    implementation 'com.afollestad.material-dialogs:core:3.3.0'
+    implementation 'com.afollestad.material-dialogs:input:3.3.0'
+    implementation 'com.afollestad.material-dialogs:datetime:3.3.0'
+    implementation 'com.afollestad.material-dialogs:lifecycle:3.3.0'
+    implementation 'com.afollestad.material-dialogs:bottomsheets:3.3.0'
+
+
 
 
 

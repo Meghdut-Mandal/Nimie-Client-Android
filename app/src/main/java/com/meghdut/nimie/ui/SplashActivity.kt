@@ -1,6 +1,9 @@
 package com.meghdut.nimie.ui
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +12,8 @@ import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.meghdut.nimie.databinding.ActivitySplashBinding
 import com.meghdut.nimie.model.uistate.SplashUIState
+import com.meghdut.nimie.ui.util.navigateTo
+import com.meghdut.nimie.ui.util.snackBar
 import com.meghdut.nimie.viewmodel.SplashViewModel
 
 @SuppressLint("CustomSplashScreen")
@@ -33,6 +38,7 @@ class SplashActivity : AppCompatActivity() {
             when (it) {
                 is SplashUIState.Success -> {
                     snackBar(binding.root, "User made ! ${it.localUser.name}")
+                    navigateTo(MainActivity::class.java)
                 }
                 is SplashUIState.Working -> {
                     binding.animationView.visibility = View.VISIBLE
@@ -50,11 +56,4 @@ class SplashActivity : AppCompatActivity() {
 
     }
 
-    private fun snackBar(
-        view: View,
-        message: String
-    ) {
-        Snackbar.make(view, message, BaseTransientBottomBar.LENGTH_LONG)
-            .show()
-    }
 }

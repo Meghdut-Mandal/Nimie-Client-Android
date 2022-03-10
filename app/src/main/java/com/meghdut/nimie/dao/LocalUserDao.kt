@@ -14,15 +14,14 @@ interface LocalUserDao {
     fun insert(localUser: LocalUser)
 
 
+    @Query("UPDATE user_table SET isActive=0 WHERE isActive=1")
+    fun clearActiveStatus()
 
     @Update
     fun update(localUser: LocalUser)
 
-    @Query("DELETE FROM user_table")
-    fun clearData()
-
 
     @Query("SELECT * from user_table where isActive = 1 ")
-    fun getUser(): LocalUser
+    fun getActiveUser(): LocalUser
 
 }

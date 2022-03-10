@@ -16,7 +16,6 @@ class SplashViewModel(application: Application) : AndroidViewModel(application) 
 
     private val db by lazy { NimieDb.create(application) }
     private val userRepository by lazy { UserRepository(db) }
-    private val executors = Executors.newFixedThreadPool(1)
 
     val uiState = MutableLiveData<SplashUIState>(SplashUIState.Uninitialised)
 

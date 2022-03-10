@@ -6,10 +6,16 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.meghdut.nimie.model.ChatMessage
 import com.meghdut.nimie.model.LocalConversation
+import com.meghdut.nimie.model.LocalStatus
 import com.meghdut.nimie.model.LocalUser
 
 
-@Database(entities = [LocalUser::class,LocalConversation::class, ChatMessage::class], version = 1)
+@Database(
+    entities = [LocalUser::class,
+        LocalConversation::class,
+        ChatMessage::class,
+        LocalStatus::class], version = 2
+)
 abstract class NimieDb : RoomDatabase() {
 
     abstract fun userDao(): LocalUserDao
@@ -17,6 +23,8 @@ abstract class NimieDb : RoomDatabase() {
     abstract fun chatDao(): ChatDao
 
     abstract fun conversationDao(): ConversationDao
+
+    abstract fun statusDao(): StatusDao
 
     companion object {
 

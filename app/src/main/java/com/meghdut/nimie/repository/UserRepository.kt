@@ -8,15 +8,16 @@ import java.security.KeyPair
 import java.security.KeyPairGenerator
 import java.security.PrivateKey
 import java.security.PublicKey
+import kotlin.math.absoluteValue
 import kotlin.random.Random
 
-class UserRepository(val db: NimieDb) {
+class UserRepository(db: NimieDb) {
 
 
     private val userDao = db.userDao()
 
 
-    suspend fun newUser(): LocalUser {
+    fun newUser(): LocalUser {
         val (publicKey, privateKey) = generateKeyPair()
         val name =
             nameList[Random.nextInt(nameList.size)] + " " + nameList[Random.nextInt(nameList.size)]
@@ -24,13 +25,17 @@ class UserRepository(val db: NimieDb) {
 
         val registerUserId = GrpcClient.createUser(publicKey)
         val userLocal = LocalUser(registerUserId, publicKey, privateKey, name, avatar, 1)
-        userDao.clearData()
+        userDao.clearActiveStatus()
         userDao.insert(userLocal)
 
         return userLocal
     }
 
-    fun generateKeyPair(): Pair<String, String> {
+    fun getCurrentActiveUser(): LocalUser {
+        return userDao.getActiveUser()
+    }
+
+    private fun generateKeyPair(): Pair<String, String> {
         val generator: KeyPairGenerator = KeyPairGenerator.getInstance("RSA")
         generator.initialize(2048)
         val pair: KeyPair = generator.generateKeyPair()
@@ -43,7 +48,7 @@ class UserRepository(val db: NimieDb) {
 
     fun ByteArray.toBase64(): String = Base64.encodeToString(this, Base64.DEFAULT)
 
-    fun avatar(name: String) = "https://avatars.dicebear.com/api/avataaars/${name.hashCode()}.svg"
+    private fun avatar(name: String) = "https://avatars.dicebear.com/api/avataaars/${name.hashCode().absoluteValue}.png"
 
 
     val nameList = """Grn

@@ -30,11 +30,13 @@ message RegisterUserRequest {
 }
 message CreateStatusRequest {
   string text = 1;
+  int64 user_id = 2;
 }
 
 message InitiateConversationRequest {
   string reply = 1;
   int64 status_id = 2;
+  int64 user_id = 3;
 }
 
 message GetConversationMessagesRequest {
@@ -48,6 +50,7 @@ message GenericRequest {
 
 message DeleteStatusRequest {
   int64 status_id = 1;
+  int64 user_id = 2;
 }
 
 message GetStatusRequest {
@@ -68,6 +71,8 @@ message GetConversationsRequest {
 
 message CreateStatusResponse {
   int64 status_id = 1;
+  int64 create_time = 2;
+  string link_id = 3;
 }
 
 message RegisterUserResponse {
@@ -119,12 +124,15 @@ service NimieApi {
 
   // chat APi
 
+
+
 }
 
 
 
-// To Build the GO  API use the following cmd
+// To Build the API use the following cmd
 // protoc --go_out=plugins=grpc:. *.proto
+
 
 /// To build the Android API use the following cmd
 // protoc --java_out=./app/src/main/java -I ./app/src/google/protobuf/descriptor.proto
