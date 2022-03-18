@@ -6,15 +6,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.meghdut.nimie.dao.NimieDb
+import com.meghdut.nimie.model.LocalStatus
 import com.meghdut.nimie.model.LocalUser
-import com.meghdut.nimie.model.uistate.AddStatusUIState
-import com.meghdut.nimie.model.uistate.SplashUIState
+import com.meghdut.nimie.model.uistate.ApiUIState
 import com.meghdut.nimie.repository.StatusRepository
 import com.meghdut.nimie.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.lang.Error
-import java.lang.Exception
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -27,7 +25,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val statusRepository by lazy { StatusRepository(db) }
     private val userLiveData = MutableLiveData<LocalUser>()
 
-    val addStatusLiveData = MutableLiveData<AddStatusUIState>()
+    val addStatusLiveData = MutableLiveData<ApiUIState<LocalStatus>>()
 
 
     fun getConversationLiveData() = conversationDao.getConversationLive()
@@ -40,25 +38,33 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         return userLiveData
     }
 
-    fun addStatus(status:String) {
-         dbTask {
-             try {
-                 addStatusLiveData.postValue(AddStatusUIState.Creating(status))
-                 val currentActiveUser = userRepo.getCurrentActiveUser()
-                 val createStatus = statusRepository.createStatus(status, currentActiveUser.userId)
-                 addStatusLiveData.postValue(AddStatusUIState.Done(createStatus))
-             }catch (e:Exception) {
-                 addStatusLiveData.postValue(AddStatusUIState.Error(e.localizedMessage!!))
-             }
-         }
+    fun addStatus(status: String) {
+        dbTask {
+            try {
+                addStatusLiveData.postValue(ApiUIState.Creating(status))
+                val currentActiveUser = userRepo.getCurrentActiveUser()
+                val createStatus = statusRepository.createStatus(status, currentActiveUser.userId)
+                addStatusLiveData.postValue(ApiUIState.Done(createStatus))
+            } catch (e: Exception) {
+                addStatusLiveData.postValue(ApiUIState.Error(e.localizedMessage!!))
+            }
+        }
     }
 
 
-    private fun dbTask(func:()->Unit){
+    private fun dbTask(func: suspend () -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             func()
         }
     }
+
+    fun loadStatus() {
+        dbTask {
+            statusRepository.loadStatus()
+        }
+    }
+
+    fun getStatues() = statusRepository.getStatus()
 
 
 }

@@ -14,5 +14,10 @@ data class LocalStatus(
     @SerializedName("created_time")
     val createdTime :Long,
     @SerializedName("link_id")
-    val linkId:String
+    val linkId:String,
+
+    @SerializedName("user_name")
+    val userName :String,
+    @SerializedName("avatar")
+    val avatar:String
 )

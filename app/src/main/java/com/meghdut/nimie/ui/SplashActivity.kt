@@ -1,15 +1,10 @@
 package com.meghdut.nimie.ui
 
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.snackbar.BaseTransientBottomBar
-import com.google.android.material.snackbar.Snackbar
 import com.meghdut.nimie.databinding.ActivitySplashBinding
 import com.meghdut.nimie.model.uistate.SplashUIState
 import com.meghdut.nimie.ui.util.navigateTo
@@ -18,10 +13,7 @@ import com.meghdut.nimie.viewmodel.SplashViewModel
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
-    val viewModel by lazy {
-        ViewModelProvider(this)
-            .get(SplashViewModel::class.java)
-    }
+    val viewModel:SplashViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

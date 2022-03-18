@@ -21,10 +21,23 @@ message ApiConversation{
   int64 create_time = 3;
 }
 
+message ApiStatus {
+  int64 status_id = 1;
+  string text = 2;
+  string link_id = 3;
+  int64 create_time = 4;
+}
 
 
 
 // Request Models for the Nimie API
+
+message GetBulkStatusRequest{
+  int32 offset = 1;
+  int32 limit = 2;
+}
+
+
 message RegisterUserRequest {
   string  pubic_key = 1;
 }
@@ -68,6 +81,10 @@ message GetConversationsRequest {
 
 
 // Response Api Models for the Nimie API
+
+message GetBulkStatusResponse {
+  repeated ApiStatus bulkStatus = 1;
+}
 
 message CreateStatusResponse {
   int64 status_id = 1;
@@ -117,13 +134,13 @@ service NimieApi {
   rpc CreateStatus(CreateStatusRequest) returns (CreateStatusResponse);
   rpc DeleteStatus(DeleteStatusRequest) returns (GenericResponse);
   rpc ReplyStatus(InitiateConversationRequest) returns (InitiateConversationResponse);
+  rpc GetBulkStatus(GetBulkStatusRequest) returns (GetBulkStatusResponse);
 
   // conversation api
   rpc GetConversationMessages(GetConversationMessagesRequest) returns (GetConversationMessagesResponse);
   rpc GetConversations(GetConversationsRequest) returns (GetConversationsResponse);
 
   // chat APi
-
 
 
 }
