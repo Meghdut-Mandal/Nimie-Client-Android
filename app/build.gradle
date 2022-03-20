@@ -72,6 +72,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
     implementation "androidx.datastore:datastore-preferences:1.0.0"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     compileOnly 'org.glassfish:javax.annotation:10.0-b28'
 
@@ -84,6 +85,8 @@ dependencies {
 
     // Integration with activities
     implementation 'androidx.activity:activity-ktx:1.4.0'
+    // Integration with fragments
+    implementation 'androidx.fragment:fragment-ktx:1.4.1'
     // Compose Material Design
     implementation 'androidx.compose.material:material:1.1.1'
     // Animations

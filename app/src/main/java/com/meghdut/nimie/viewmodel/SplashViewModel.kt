@@ -3,14 +3,10 @@ package com.meghdut.nimie.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.meghdut.nimie.dao.NimieDb
 import com.meghdut.nimie.model.uistate.SplashUIState
 import com.meghdut.nimie.repository.UserRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.util.concurrent.Executors
+import com.meghdut.nimie.ui.util.ioTask
 
 class SplashViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -19,7 +15,7 @@ class SplashViewModel(application: Application) : AndroidViewModel(application) 
 
     val uiState = MutableLiveData<SplashUIState>(SplashUIState.Uninitialised)
 
-    fun createLocalUser() = viewModelScope.launch(Dispatchers.IO) {
+    fun createLocalUser() = ioTask {
         uiState.postValue(SplashUIState.Working("Finding a sweet name for you!"))
         try {
             val user = userRepository.newUser()

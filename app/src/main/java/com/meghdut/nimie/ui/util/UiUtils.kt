@@ -3,8 +3,12 @@ package com.meghdut.nimie.ui.util
 import android.app.Activity
 import android.content.Intent
 import android.view.View
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 import kotlin.random.Random
 
@@ -22,6 +26,13 @@ fun snackBar(
     Snackbar.make(view, message, BaseTransientBottomBar.LENGTH_LONG)
         .show()
 }
+
+fun AndroidViewModel.ioTask(func: suspend () -> Unit) {
+    viewModelScope.launch(Dispatchers.IO) {
+        func()
+    }
+}
+
 
 fun avatar(name: String) =
     "https://avatars.dicebear.com/api/avataaars/${name.hashCode().absoluteValue}.png"
