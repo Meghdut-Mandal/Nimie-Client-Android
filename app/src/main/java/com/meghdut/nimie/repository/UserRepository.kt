@@ -53,5 +53,9 @@ class UserRepository(db: NimieDb) {
 
     fun anyActiveUser()  = userDao.anyActive() > 0
 
+    fun logOutUser(){
+        userDao.clearActiveStatus()
+    }
+
 
 }

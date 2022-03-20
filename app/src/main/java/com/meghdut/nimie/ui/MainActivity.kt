@@ -9,6 +9,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.load
 import com.meghdut.nimie.R
 import com.meghdut.nimie.databinding.ActivityMainBinding
+import com.meghdut.nimie.ui.util.navigateTo
 import com.meghdut.nimie.viewmodel.MainViewModel
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
@@ -20,6 +21,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addLiveDataObservers()
+        binding.logOut.setOnClickListener {
+            viewModel.logOutUser()
+        }
         viewPager.adapter = pagerAdapter
     }
 
@@ -28,6 +32,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             it?.let {
                 binding.userDp.load(it.avatar)
                 binding.userName.text = it.name
+            }
+            if (it == null) {
+                navigateTo(SplashActivity::class.java)
             }
         }
     }

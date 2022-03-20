@@ -22,17 +22,22 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private val userRepo by lazy { UserRepository(db) }
 
-    private val userLiveData = MutableLiveData<LocalUser>()
+    private val userLiveData = MutableLiveData<LocalUser?>()
 
 
     fun getConversationLiveData() = conversationDao.getConversationLive()
 
-    fun getActiveUser(): LiveData<LocalUser> {
+    fun getActiveUser(): LiveData<LocalUser?> {
         ioTask {
             val currentActiveUser = userRepo.getCurrentActiveUser()
             userLiveData.postValue(currentActiveUser)
         }
         return userLiveData
+    }
+
+    fun logOutUser() = ioTask {
+        userRepo.logOutUser()
+        userLiveData.postValue(null)
     }
 
 
