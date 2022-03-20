@@ -11,5 +11,6 @@ data class LocalConversation(
     val createTime: Long,
     val otherName: String,
     val lastUpdateTime: Long,
-    val lastText: String
+    val lastText: String,
+    val otherPublicKey: String
 )
