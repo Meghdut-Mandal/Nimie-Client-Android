@@ -25,4 +25,11 @@ class SplashViewModel(application: Application) : AndroidViewModel(application) 
             uiState.postValue(SplashUIState.Error(e.localizedMessage ?: ""))
         }
     }
+
+    fun checkActiveUser() = ioTask {
+        if (userRepository.anyActiveUser()){
+            val user = userRepository.getCurrentActiveUser()
+            uiState.postValue(SplashUIState.Success(user))
+        }
+    }
 }

@@ -13,7 +13,7 @@ import com.meghdut.nimie.viewmodel.SplashViewModel
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
-    val viewModel:SplashViewModel by viewModels()
+    private val viewModel:SplashViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +23,7 @@ class SplashActivity : AppCompatActivity() {
         binding.createUserButton.setOnClickListener {
             viewModel.createLocalUser()
         }
+        viewModel.checkActiveUser()
 
         viewModel.uiState.observe(this) {
             binding.animationView.visibility = View.INVISIBLE

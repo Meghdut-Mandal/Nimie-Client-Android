@@ -51,6 +51,7 @@ class UserRepository(db: NimieDb) {
     private fun ByteArray.toBase64(): String = Base64.encodeToString(this, Base64.DEFAULT)
 
 
+    fun anyActiveUser()  = userDao.anyActive() > 0
 
 
 }
