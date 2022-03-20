@@ -1,11 +1,11 @@
-package com.meghdut.nimie.dao
+package com.meghdut.nimie.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.ABORT
 import androidx.room.Query
-import com.meghdut.nimie.model.ChatMessage
+import com.meghdut.nimie.data.model.ChatMessage
 
 @Dao
 interface ChatDao {

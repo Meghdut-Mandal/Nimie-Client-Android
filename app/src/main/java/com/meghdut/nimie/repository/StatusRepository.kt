@@ -2,8 +2,8 @@ package com.meghdut.nimie.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.meghdut.nimie.dao.NimieDb
-import com.meghdut.nimie.model.LocalStatus
+import com.meghdut.nimie.data.dao.NimieDb
+import com.meghdut.nimie.data.model.LocalStatus
 import com.meghdut.nimie.network.GrpcClient
 
 class StatusRepository(db: NimieDb) {

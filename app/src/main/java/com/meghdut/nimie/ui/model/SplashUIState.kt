@@ -1,6 +1,6 @@
-package com.meghdut.nimie.model.uistate
+package com.meghdut.nimie.ui.model
 
-import com.meghdut.nimie.model.LocalUser
+import com.meghdut.nimie.data.model.LocalUser
 
 sealed class SplashUIState {
     object Uninitialised : SplashUIState()

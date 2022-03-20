@@ -1,7 +1,7 @@
 package com.meghdut.nimie.repository
 
-import com.meghdut.nimie.dao.NimieDb
-import com.meghdut.nimie.model.LocalConversation
+import com.meghdut.nimie.data.dao.NimieDb
+import com.meghdut.nimie.data.model.LocalConversation
 import com.meghdut.nimie.network.GrpcClient
 
 class ConversationRepository(db: NimieDb) {

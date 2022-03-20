@@ -1,11 +1,11 @@
-package com.meghdut.nimie.dao
+package com.meghdut.nimie.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.meghdut.nimie.model.LocalConversation
+import com.meghdut.nimie.data.model.LocalConversation
 
 @Dao
 interface ConversationDao {

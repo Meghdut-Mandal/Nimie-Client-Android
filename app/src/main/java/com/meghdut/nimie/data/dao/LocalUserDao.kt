@@ -1,11 +1,11 @@
-package com.meghdut.nimie.dao
+package com.meghdut.nimie.data.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import androidx.room.Update
-import com.meghdut.nimie.model.LocalUser
+import com.meghdut.nimie.data.model.LocalUser
 
 @Dao
 interface LocalUserDao {

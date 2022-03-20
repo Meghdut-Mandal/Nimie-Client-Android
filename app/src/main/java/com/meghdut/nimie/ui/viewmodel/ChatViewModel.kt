@@ -1,4 +1,4 @@
-package com.meghdut.nimie.viewmodel
+package com.meghdut.nimie.ui.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

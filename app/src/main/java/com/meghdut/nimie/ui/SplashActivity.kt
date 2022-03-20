@@ -6,10 +6,10 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.meghdut.nimie.databinding.ActivitySplashBinding
-import com.meghdut.nimie.model.uistate.SplashUIState
+import com.meghdut.nimie.ui.model.SplashUIState
 import com.meghdut.nimie.ui.util.navigateTo
 import com.meghdut.nimie.ui.util.snackBar
-import com.meghdut.nimie.viewmodel.SplashViewModel
+import com.meghdut.nimie.ui.viewmodel.SplashViewModel
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {

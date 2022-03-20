@@ -1,8 +1,8 @@
 package com.meghdut.nimie.repository
 
 import android.util.Base64
-import com.meghdut.nimie.dao.NimieDb
-import com.meghdut.nimie.model.LocalUser
+import com.meghdut.nimie.data.dao.NimieDb
+import com.meghdut.nimie.data.model.LocalUser
 import com.meghdut.nimie.network.GrpcClient
 import com.meghdut.nimie.ui.util.avatar
 import com.meghdut.nimie.ui.util.randomName
@@ -10,8 +10,6 @@ import java.security.KeyPair
 import java.security.KeyPairGenerator
 import java.security.PrivateKey
 import java.security.PublicKey
-import kotlin.math.absoluteValue
-import kotlin.random.Random
 
 class UserRepository(db: NimieDb) {
 

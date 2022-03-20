@@ -1,13 +1,13 @@
-package com.meghdut.nimie.dao
+package com.meghdut.nimie.data.dao
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.meghdut.nimie.model.ChatMessage
-import com.meghdut.nimie.model.LocalConversation
-import com.meghdut.nimie.model.LocalStatus
-import com.meghdut.nimie.model.LocalUser
+import com.meghdut.nimie.data.model.ChatMessage
+import com.meghdut.nimie.data.model.LocalConversation
+import com.meghdut.nimie.data.model.LocalStatus
+import com.meghdut.nimie.data.model.LocalUser
 
 
 @Database(

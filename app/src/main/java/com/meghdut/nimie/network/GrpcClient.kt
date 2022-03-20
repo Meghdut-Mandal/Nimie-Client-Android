@@ -1,7 +1,7 @@
 package com.meghdut.nimie.network
 
-import com.meghdut.nimie.model.LocalConversation
-import com.meghdut.nimie.model.LocalStatus
+import com.meghdut.nimie.data.model.LocalConversation
+import com.meghdut.nimie.data.model.LocalStatus
 import com.meghdut.nimie.network.grpc_api.Nimie.*
 import com.meghdut.nimie.network.grpc_api.NimieApiGrpc
 import com.meghdut.nimie.ui.util.avatar

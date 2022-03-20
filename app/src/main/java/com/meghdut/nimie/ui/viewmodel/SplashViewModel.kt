@@ -1,10 +1,10 @@
-package com.meghdut.nimie.viewmodel
+package com.meghdut.nimie.ui.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.meghdut.nimie.dao.NimieDb
-import com.meghdut.nimie.model.uistate.SplashUIState
+import com.meghdut.nimie.data.dao.NimieDb
+import com.meghdut.nimie.ui.model.SplashUIState
 import com.meghdut.nimie.repository.UserRepository
 import com.meghdut.nimie.ui.util.ioTask
 

@@ -1,11 +1,11 @@
-package com.meghdut.nimie.dao
+package com.meghdut.nimie.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.meghdut.nimie.model.LocalStatus
+import com.meghdut.nimie.data.model.LocalStatus
 
 @Dao
 interface StatusDao {
@@ -21,7 +21,7 @@ interface StatusDao {
 
 
     @Query("SELECT * from local_status where statusId = :id ")
-    fun getStatusById(id: Long) :  LocalStatus
+    fun getStatusById(id: Long) : LocalStatus
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertMultipleStatus(list: List<LocalStatus>)

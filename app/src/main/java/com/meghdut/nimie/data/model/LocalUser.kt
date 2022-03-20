@@ -1,4 +1,4 @@
-package com.meghdut.nimie.model
+package com.meghdut.nimie.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

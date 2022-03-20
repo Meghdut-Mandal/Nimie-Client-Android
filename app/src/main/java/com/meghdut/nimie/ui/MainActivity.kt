@@ -10,7 +10,7 @@ import coil.load
 import com.meghdut.nimie.R
 import com.meghdut.nimie.databinding.ActivityMainBinding
 import com.meghdut.nimie.ui.util.navigateTo
-import com.meghdut.nimie.viewmodel.MainViewModel
+import com.meghdut.nimie.ui.viewmodel.MainViewModel
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private val viewModel: MainViewModel by viewModels()

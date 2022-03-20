@@ -1,4 +1,4 @@
-package com.meghdut.nimie.model.uistate
+package com.meghdut.nimie.ui.model
 
 sealed class ApiUIState<T> {
     class Uninitialised<T> : ApiUIState<T>()

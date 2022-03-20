@@ -2,7 +2,6 @@ package com.meghdut.nimie.ui
 
 import android.os.Bundle
 import android.view.View
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,12 +16,11 @@ import com.meghdut.nimie.R
 import com.meghdut.nimie.databinding.ConversationItemBinding
 import com.meghdut.nimie.databinding.FragmentStatusFragmentsBinding
 import com.meghdut.nimie.databinding.LayoutTextPromptBinding
-import com.meghdut.nimie.model.LocalStatus
-import com.meghdut.nimie.model.uistate.ApiUIState
+import com.meghdut.nimie.data.model.LocalStatus
+import com.meghdut.nimie.ui.model.ApiUIState
 import com.meghdut.nimie.ui.util.GenericAdapter
 import com.meghdut.nimie.ui.util.snackBar
-import com.meghdut.nimie.viewmodel.SplashViewModel
-import com.meghdut.nimie.viewmodel.StatusViewModel
+import com.meghdut.nimie.ui.viewmodel.StatusViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
