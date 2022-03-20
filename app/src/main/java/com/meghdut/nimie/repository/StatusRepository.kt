@@ -29,8 +29,11 @@ class StatusRepository(db: NimieDb) {
         bulkStatus.forEach {
             println(it)
         }
+        statusDao.insertMultipleStatus(bulkStatus)
         statusLiveData.postValue(bulkStatus)
     }
+
+
 
 
 }

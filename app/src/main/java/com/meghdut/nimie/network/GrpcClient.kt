@@ -1,5 +1,6 @@
 package com.meghdut.nimie.network
 
+import com.meghdut.nimie.model.LocalConversation
 import com.meghdut.nimie.model.LocalStatus
 import com.meghdut.nimie.network.grpc_api.Nimie.*
 import com.meghdut.nimie.network.grpc_api.NimieApiGrpc
@@ -10,7 +11,7 @@ import io.grpc.ManagedChannelBuilder
 
 object GrpcClient {
 
-    val connectionString = "2.tcp.ngrok.io:10515".trim()
+    val connectionString = "8.tcp.ngrok.io:13676".trim()
     val split = connectionString.split(":")
     val name = split[0]
     val port = split[1].toInt()
@@ -61,7 +62,37 @@ object GrpcClient {
                 .newBuilder().setOffset(offset).setLimit(limit).build()
         )
         return apiStatus.bulkStatusOrBuilderList.map {
-            LocalStatus(it.statusId,it.text,it.createTime,it.linkId, randomName, avatar(it.linkId))
+            LocalStatus(
+                it.statusId,
+                it.text,
+                it.createTime,
+                it.linkId,
+                randomName,
+                avatar(it.linkId)
+            )
         }
+    }
+
+    fun replyToStatus(
+        reply: String,
+        userId: Long,
+        statusId: Long,
+        otherName: String
+    ): LocalConversation {
+        val conversationCreated = stub.replyStatus(
+            InitiateConversationRequest.newBuilder().setReply(reply).setStatusId(statusId)
+                .setUserId(userId).build()
+        )
+        val timeNow = System.currentTimeMillis()
+
+        return LocalConversation(
+            conversationCreated.conversationId,
+            statusId,
+            timeNow,
+            otherName,
+            timeNow,
+            reply,
+            conversationCreated.publicKey
+        )
     }
 }

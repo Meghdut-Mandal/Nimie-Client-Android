@@ -93,7 +93,7 @@ dependencies {
     // Integration with ViewModels
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1'
 
-    implementation "androidx.compose.material3:material3:1.0.0-alpha06"
+    implementation "androidx.compose.material3:material3:1.0.0-alpha07"
     implementation "com.google.accompanist:accompanist-insets:0.21.3-beta"
 
 
@@ -133,5 +133,7 @@ dependencies {
     implementation "androidx.paging:paging-runtime-ktx:3.1.1"
 
 
+    // For view binding delegate
+    implementation 'com.github.kirich1409:viewbindingpropertydelegate:1.5.3'
 
 }

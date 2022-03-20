@@ -1,7 +1,6 @@
 package com.meghdut.nimie.dao
 
 import androidx.lifecycle.LiveData
-import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -19,6 +18,10 @@ interface StatusDao {
 
     @Query("SELECT COUNT(statusId) from local_status")
     suspend fun count(): Int
+
+
+    @Query("SELECT * from local_status where statusId = :id ")
+    fun getStatusById(id: Long) :  LocalStatus
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertMultipleStatus(list: List<LocalStatus>)
