@@ -18,7 +18,7 @@ import com.meghdut.nimie.databinding.FragmentStatusFragmentsBinding
 import com.meghdut.nimie.databinding.LayoutTextPromptBinding
 import com.meghdut.nimie.data.model.LocalStatus
 import com.meghdut.nimie.ui.model.ApiUIState
-import com.meghdut.nimie.ui.util.GenericAdapter
+import com.meghdut.nimie.ui.util.XListAdapter
 import com.meghdut.nimie.ui.util.snackBar
 import com.meghdut.nimie.ui.viewmodel.StatusViewModel
 import java.text.SimpleDateFormat
@@ -31,10 +31,10 @@ class StatusFragment : Fragment(R.layout.fragment_status_fragments) {
 
 
 
-    private val statusAdapter = GenericAdapter(R.layout.conversation_item, ::bindConversation)
+    private val statusAdapter = XListAdapter(R.layout.conversation_item, ::bindStatus)
     private val dateFormat = SimpleDateFormat("hh.mm aa")
 
-    private fun bindConversation(view: View, localStatus: LocalStatus, i: Int) {
+    private fun bindStatus(view: View, localStatus: LocalStatus, i: Int) {
         val bind = ConversationItemBinding.bind(view)
 
         bind.dpIv.load(localStatus.avatar)
@@ -67,11 +67,12 @@ class StatusFragment : Fragment(R.layout.fragment_status_fragments) {
 
     private fun addLiveDataObservers() {
         viewModel.addStatusLiveData.observe(viewLifecycleOwner) { state ->
+            binding.progress.isIndeterminate = false
             when (state) {
                 is ApiUIState.Uninitialised -> {
-
                 }
                 is ApiUIState.Loading -> {
+                    binding.progress.isIndeterminate = true
                     snackBar(binding.root, "Adding Status..")
                 }
                 is ApiUIState.Error -> {
@@ -84,7 +85,7 @@ class StatusFragment : Fragment(R.layout.fragment_status_fragments) {
             }
         }
 
-        viewModel.getStatues().observe(viewLifecycleOwner) {state ->
+        viewModel.statues.observe(viewLifecycleOwner) { state ->
             state?.let {
                 statusAdapter.submitList(state)
                 binding.swipeRefreshLayout.isRefreshing = false

@@ -1,8 +1,9 @@
 package com.meghdut.nimie.data.dao
 
-import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy.IGNORE
 import androidx.room.Query
 import androidx.room.Update
 import com.meghdut.nimie.data.model.LocalConversation
@@ -10,7 +11,10 @@ import com.meghdut.nimie.data.model.LocalConversation
 @Dao
 interface ConversationDao {
 
-    @Insert
+    @Insert(onConflict = IGNORE)
+    suspend fun insertAll(localConversation: List<LocalConversation>)
+
+    @Insert(onConflict = IGNORE)
     fun insert(localConversation: LocalConversation)
 
     @Update
@@ -20,5 +24,6 @@ interface ConversationDao {
     fun getConversationById(conversationId: Long): LocalConversation
 
     @Query("SELECT * from local_conversation order by lastUpdateTime")
-    fun getConversationLive(): LiveData<List<LocalConversation>>
+    fun getConversationDataSource(): DataSource.Factory<Int,LocalConversation>
+
 }

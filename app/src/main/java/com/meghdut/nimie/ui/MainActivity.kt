@@ -9,6 +9,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.load
 import com.meghdut.nimie.R
 import com.meghdut.nimie.databinding.ActivityMainBinding
+import com.meghdut.nimie.ui.util.avatar
 import com.meghdut.nimie.ui.util.navigateTo
 import com.meghdut.nimie.ui.viewmodel.MainViewModel
 
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private fun addLiveDataObservers() {
         viewModel.getActiveUser().observe(this) {
             it?.let {
-                binding.userDp.load(it.avatar)
+                binding.userDp.load(avatar(it.name))
                 binding.userName.text = it.name
             }
             if (it == null) {
@@ -41,15 +42,18 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private val pagerAdapter = object : FragmentStateAdapter(this) {
 
-        var map: Map<Int, Fragment>? = null
+        val map: Map<Int, Fragment> by lazy {
+            mapOf(
+                0 to StatusFragment(),
+                1 to ConversationFragment()
+            )
+        }
 
-        override fun getItemCount() = 1
+        override fun getItemCount() = map.size
 
         override fun createFragment(position: Int): Fragment {
-            if (map == null) {
-                map = mapOf(0 to StatusFragment())
-            }
-            return map!![position]!!
+
+            return map[position]!!
         }
 
     }

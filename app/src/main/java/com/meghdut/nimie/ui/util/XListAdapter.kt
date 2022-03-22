@@ -9,11 +9,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
-class GenericAdapter<T : Any>(
+class XListAdapter<T : Any>(
     @LayoutRes val layout: Int,
     val bindData: View.(T, Int) -> Unit
 ) :
-    ListAdapter<T, GenericAdapter.GenericViewModel>(diffUtil<T>()) {
+    ListAdapter<T, GenericViewModel>(diffUtil<T>()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericViewModel {
         val inflater = LayoutInflater.from(parent.context)
@@ -29,9 +29,9 @@ class GenericAdapter<T : Any>(
     override fun onBindViewHolder(holder: GenericViewModel, position: Int) {
         holder.itemView.bindData(getItem(position), position)
     }
-    class GenericViewModel(itemView: View) : RecyclerView.ViewHolder(itemView)
 }
 
+class GenericViewModel(itemView: View) : RecyclerView.ViewHolder(itemView)
 
 
 

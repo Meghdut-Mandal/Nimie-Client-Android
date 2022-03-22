@@ -20,7 +20,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val userLiveData = MutableLiveData<LocalUser?>()
 
 
-    fun getConversationLiveData() = conversationDao.getConversationLive()
+    fun getConversationLiveData() = conversationDao.getConversationDataSource()
 
     fun getActiveUser(): LiveData<LocalUser?> {
         ioTask {

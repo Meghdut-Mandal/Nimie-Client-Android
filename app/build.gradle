@@ -139,4 +139,8 @@ dependencies {
     // For view binding delegate
     implementation 'com.github.kirich1409:viewbindingpropertydelegate:1.5.3'
 
+    // Android paging Lib
+    implementation 'androidx.paging:paging-runtime-ktx:3.1.1'
+
+
 }

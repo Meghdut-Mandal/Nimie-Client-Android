@@ -11,7 +11,7 @@ import io.grpc.ManagedChannelBuilder
 
 object GrpcClient {
 
-    val connectionString = "8.tcp.ngrok.io:13676".trim()
+    val connectionString = "8.tcp.ngrok.io:11707".trim()
     val split = connectionString.split(":")
     val name = split[0]
     val port = split[1].toInt()
@@ -95,4 +95,24 @@ object GrpcClient {
             conversationCreated.publicKey
         )
     }
+
+    fun getConversationList(userId: Long): List<LocalConversation> {
+        val conversationList = stub.getConversationList(
+            ConversationListRequest.newBuilder().setUserId(userId).setOffset(0).setLimit(100)
+                .build()
+        )
+
+       return  conversationList.conversationsOrBuilderList.map {
+            LocalConversation(
+                it.conversationId,
+                it.statusId,
+                it.createTime,
+                randomName,
+                it.createTime,
+                it.lastReply,
+                it.otherPublicKey
+            )
+        }
+    }
+
 }

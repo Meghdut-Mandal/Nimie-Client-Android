@@ -24,7 +24,7 @@ class UserRepository(db: NimieDb) {
         val avatar = avatar(name)
 
         val registerUserId = GrpcClient.createUser(publicKey)
-        val userLocal = LocalUser(registerUserId, publicKey, privateKey, name, avatar, 1)
+        val userLocal = LocalUser(registerUserId, publicKey, privateKey, name,  1)
         userDao.clearActiveStatus()
         userDao.insert(userLocal)
 

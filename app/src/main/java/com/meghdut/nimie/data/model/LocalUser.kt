@@ -10,6 +10,5 @@ data class LocalUser(
     val publicKey: String,
     val privateKey: String,
     val name: String,
-    val avatar: String,
     val isActive: Int
 )

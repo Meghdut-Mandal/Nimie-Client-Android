@@ -31,11 +31,6 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
-<!--    addStatusButton-->
-
-
-
-
     <ProgressBar
         android:id="@+id/progress"
         android:layout_width="match_parent"

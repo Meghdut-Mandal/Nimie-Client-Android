@@ -26,6 +26,9 @@ class StatusViewModel(application: Application) : AndroidViewModel(application) 
 
     private val userRepository by lazy { UserRepository(db) }
 
+    val statues get() = statusRepository.getStatus()
+
+
 
     fun addStatus(status: String) = ioTask {
         try {
@@ -60,6 +63,5 @@ class StatusViewModel(application: Application) : AndroidViewModel(application) 
         statusRepository.loadStatus()
     }
 
-    fun getStatues() = statusRepository.getStatus()
 
 }
