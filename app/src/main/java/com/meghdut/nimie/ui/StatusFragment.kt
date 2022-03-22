@@ -19,6 +19,7 @@ import com.meghdut.nimie.databinding.LayoutTextPromptBinding
 import com.meghdut.nimie.data.model.LocalStatus
 import com.meghdut.nimie.ui.model.ApiUIState
 import com.meghdut.nimie.ui.util.XListAdapter
+import com.meghdut.nimie.ui.util.XPagedAdapter
 import com.meghdut.nimie.ui.util.snackBar
 import com.meghdut.nimie.ui.viewmodel.StatusViewModel
 import java.text.SimpleDateFormat
@@ -29,9 +30,7 @@ class StatusFragment : Fragment(R.layout.fragment_status_fragments) {
     private val binding by viewBinding(FragmentStatusFragmentsBinding::bind)
     private val viewModel : StatusViewModel by viewModels()
 
-
-
-    private val statusAdapter = XListAdapter(R.layout.conversation_item, ::bindStatus)
+    private val statusAdapter = XPagedAdapter(R.layout.conversation_item, ::bindStatus)
     private val dateFormat = SimpleDateFormat("hh.mm aa")
 
     private fun bindStatus(view: View, localStatus: LocalStatus, i: Int) {
@@ -85,9 +84,9 @@ class StatusFragment : Fragment(R.layout.fragment_status_fragments) {
             }
         }
 
-        viewModel.statues.observe(viewLifecycleOwner) { state ->
+        viewModel.getStatues().observe(viewLifecycleOwner) { state ->
             state?.let {
-                statusAdapter.submitList(state)
+                statusAdapter.submitData(lifecycle,state)
                 binding.swipeRefreshLayout.isRefreshing = false
             }
         }

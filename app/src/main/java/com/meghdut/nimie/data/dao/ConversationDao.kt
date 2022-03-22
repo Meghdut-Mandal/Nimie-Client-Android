@@ -23,7 +23,7 @@ interface ConversationDao {
     @Query("SELECT * from local_conversation where conversationId = :conversationId order by lastUpdateTime limit 1")
     fun getConversationById(conversationId: Long): LocalConversation
 
-    @Query("SELECT * from local_conversation order by lastUpdateTime")
+    @Query("SELECT * from local_conversation order by lastUpdateTime desc")
     fun getConversationDataSource(): DataSource.Factory<Int,LocalConversation>
 
 }

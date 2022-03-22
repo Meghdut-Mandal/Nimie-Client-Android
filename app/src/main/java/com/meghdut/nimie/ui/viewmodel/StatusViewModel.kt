@@ -26,7 +26,7 @@ class StatusViewModel(application: Application) : AndroidViewModel(application) 
 
     private val userRepository by lazy { UserRepository(db) }
 
-    val statues get() = statusRepository.getStatus()
+    fun getStatues() = statusRepository.getStatus()
 
 
 

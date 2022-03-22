@@ -2,16 +2,18 @@ package com.meghdut.nimie.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
 import com.meghdut.nimie.data.dao.NimieDb
 import com.meghdut.nimie.data.model.LocalStatus
 import com.meghdut.nimie.network.GrpcClient
+import kotlinx.coroutines.Dispatchers
 
 class StatusRepository(db: NimieDb) {
     private val statusDao = db.statusDao()
 
-    private val statusLiveData = MutableLiveData<List<LocalStatus>>()
-
-    // As of now only display online statuses
 
     fun createStatus(status: String, userId: Long): LocalStatus {
         val createdStatus = GrpcClient.createStatus(status, userId)
@@ -20,8 +22,13 @@ class StatusRepository(db: NimieDb) {
         return createdStatus
     }
 
-    fun getStatus(): LiveData<List<LocalStatus>> {
-        return statusLiveData
+    fun getStatus(): LiveData<PagingData<LocalStatus>> {
+        val dataSourceFactory = statusDao.getStatus()
+        return Pager(
+            PagingConfig(100),
+            null,
+            dataSourceFactory.asPagingSourceFactory(Dispatchers.IO)
+        ).liveData
     }
 
     suspend fun loadStatus() {
@@ -30,10 +37,6 @@ class StatusRepository(db: NimieDb) {
             println(it)
         }
         statusDao.insertMultipleStatus(bulkStatus)
-        statusLiveData.postValue(bulkStatus)
     }
-
-
-
 
 }
