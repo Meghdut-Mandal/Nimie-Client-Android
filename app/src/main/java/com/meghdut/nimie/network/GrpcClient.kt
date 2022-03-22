@@ -51,8 +51,7 @@ object GrpcClient {
             status,
             created.createTime,
             created.linkId,
-            randomName,
-            avatar(created.linkId)
+            randomName
         )
     }
 
@@ -67,8 +66,7 @@ object GrpcClient {
                 it.text,
                 it.createTime,
                 it.linkId,
-                randomName,
-                avatar(it.linkId)
+                randomName
             )
         }
     }

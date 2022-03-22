@@ -20,6 +20,7 @@ import com.meghdut.nimie.data.model.LocalStatus
 import com.meghdut.nimie.ui.model.ApiUIState
 import com.meghdut.nimie.ui.util.XListAdapter
 import com.meghdut.nimie.ui.util.XPagedAdapter
+import com.meghdut.nimie.ui.util.avatar
 import com.meghdut.nimie.ui.util.snackBar
 import com.meghdut.nimie.ui.viewmodel.StatusViewModel
 import java.text.SimpleDateFormat
@@ -36,7 +37,7 @@ class StatusFragment : Fragment(R.layout.fragment_status_fragments) {
     private fun bindStatus(view: View, localStatus: LocalStatus, i: Int) {
         val bind = ConversationItemBinding.bind(view)
 
-        bind.dpIv.load(localStatus.avatar)
+        bind.dpIv.load(avatar(localStatus.userName))
         bind.userNametv.text = localStatus.userName
         bind.statusTxtTv.text = localStatus.text
         val date = Date(localStatus.createdTime)

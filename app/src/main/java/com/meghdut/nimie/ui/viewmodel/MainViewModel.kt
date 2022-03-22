@@ -13,14 +13,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private val db by lazy { NimieDb.create(application) }
 
-    private val conversationDao by lazy { db.conversationDao() }
-
     private val userRepo by lazy { UserRepository(db) }
 
     private val userLiveData = MutableLiveData<LocalUser?>()
 
 
-    fun getConversationLiveData() = conversationDao.getConversationDataSource()
 
     fun getActiveUser(): LiveData<LocalUser?> {
         ioTask {

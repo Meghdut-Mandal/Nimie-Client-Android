@@ -8,16 +8,14 @@ import com.google.gson.annotations.SerializedName
 data class LocalStatus(
     @PrimaryKey
     @SerializedName("status_id")
-    val statusId:Long,
+    val statusId: Long,
     @SerializedName("text")
-    val text:String,
+    val text: String,
     @SerializedName("created_time")
-    val createdTime :Long,
+    val createdTime: Long,
     @SerializedName("link_id")
-    val linkId:String,
+    val linkId: String,
 
     @SerializedName("user_name")
-    val userName :String,
-    @SerializedName("avatar")
-    val avatar:String
+    val userName: String
 )
