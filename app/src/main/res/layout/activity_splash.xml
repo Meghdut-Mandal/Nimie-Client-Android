@@ -62,6 +62,7 @@
         tools:layout_editor_absoluteX="16dp" />
 
     <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animationView"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:background="#00FFFFFF"

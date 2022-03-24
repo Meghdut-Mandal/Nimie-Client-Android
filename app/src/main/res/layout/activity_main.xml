@@ -9,6 +9,7 @@
 
 
     <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -30,12 +31,14 @@
         app:layout_constraintTop_toTopOf="@+id/guideline2">
 
         <ImageView
+            android:id="@+id/userDp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:srcCompat="@tools:sample/avatars" />
     </androidx.cardview.widget.CardView>
 
     <ImageView
+        android:id="@+id/logOut"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginEnd="8dp"
@@ -52,6 +55,7 @@
         app:layout_constraintGuide_percent="0.08" />
 
     <TextView
+        android:id="@+id/userName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_medium"
@@ -104,6 +108,7 @@
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
     <ImageButton
+        android:id="@+id/imageButton"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:background="#00FFFFFF"
