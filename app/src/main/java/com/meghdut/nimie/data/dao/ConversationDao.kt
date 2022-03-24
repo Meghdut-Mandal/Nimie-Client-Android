@@ -4,7 +4,6 @@ import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.IGNORE
-import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import androidx.room.Update
 import com.meghdut.nimie.data.model.LocalConversation
@@ -18,6 +17,9 @@ interface ConversationDao {
     @Insert(onConflict = IGNORE)
     fun insert(localConversation: LocalConversation)
 
+    @Query("SELECT * from local_conversation where conversationId = :conversationId limit 1")
+    suspend fun getConversation(conversationId: Long): LocalConversation
+
     @Update
     fun update(localConversation: LocalConversation)
 
@@ -25,6 +27,6 @@ interface ConversationDao {
     fun getConversationById(conversationId: Long): LocalConversation
 
     @Query("SELECT * from local_conversation order by lastUpdateTime desc")
-    fun getConversationDataSource(): DataSource.Factory<Int,LocalConversation>
+    fun getConversationDataSource(): DataSource.Factory<Int, LocalConversation>
 
 }

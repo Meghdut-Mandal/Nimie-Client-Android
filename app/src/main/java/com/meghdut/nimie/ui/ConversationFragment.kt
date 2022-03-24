@@ -1,5 +1,6 @@
 package com.meghdut.nimie.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -13,6 +14,7 @@ import com.meghdut.nimie.databinding.ConversationItemBinding
 import com.meghdut.nimie.databinding.FragmentConversationBinding
 import com.meghdut.nimie.ui.util.XPagedAdapter
 import com.meghdut.nimie.ui.util.avatar
+import com.meghdut.nimie.ui.util.navigateTo
 import com.meghdut.nimie.ui.viewmodel.ConversationViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -34,6 +36,12 @@ class ConversationFragment : Fragment(R.layout.fragment_conversation) {
         bind.statusTxtTv.text = item.lastText
         val date = Date(item.createTime)
         bind.timeTv.text = dateFormat.format(date)
+        bind.root.setOnClickListener {
+            val intent = Intent(requireContext(), ChatActivity::class.java)
+            println("Setting the CHAT ID to be ${item.conversationId}")
+            intent.putExtra(ChatActivity.CONVERSATION_ID,item.conversationId)
+            startActivity(intent)
+        }
 
     }
 

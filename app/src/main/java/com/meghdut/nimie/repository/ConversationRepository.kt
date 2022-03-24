@@ -53,4 +53,8 @@ class ConversationRepository(db: NimieDb) {
         ).liveData
     }
 
+    suspend fun getConversation(conversationId: Long): LocalConversation {
+        return conversationDao.getConversation(conversationId)
+    }
+
 }
