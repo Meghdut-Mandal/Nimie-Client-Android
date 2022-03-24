@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/receiving_first"
+        android:elevation="2dp"
+        android:orientation="vertical"
+        android:padding="6dp"
+        tools:targetApi="lollipop">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="0dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:contentDescription="@string/message_image"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/shape_image_place_holder_bg"
+                    android:visibility="gone" />
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone"/>
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="all"
+            android:textColorLink="@color/colorBlueLight"
+            android:layout_gravity="start"
+            android:maxWidth="250dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="15sp"
+            android:visibility="visible"
+            tools:text="This should contain a long message " />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:autoLink="all"
+                android:textColorLink="@color/colorBlueLight"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="8dp"
+                android:maxWidth="250dp"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="15sp"
+                android:visibility="gone"
+                tools:text="This short message" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/colorSecondaryText"
+                android:layout_marginEnd="5dp"
+                android:gravity="bottom"
+                android:textSize="12sp"
+                tools:text="12:15 AM " />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

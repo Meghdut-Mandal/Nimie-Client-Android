@@ -1,4 +1,27 @@
-<resources>
-    <string name="app_name">Nimie</string>
+<resources translatable="false">
+    <string name="app_name" >Nimie</string>
+
+    <string name="msg_no_chat_yet">No chats here yet, send a message now to start conversation</string>
+    <string name="type_a_message">Type a message</string>
+    <string name="document">Document</string>
+    <string name="gallery">Gallery</string>
+    <string name="contact">Contact</string>
+    <string name="camera">Camera</string>
+    <string name="location">Location</string>
+    <string name="audio">Audio</string>
+    <string name="yesterday">yesterday</string>
+    <string name="online">online</string>
+    <string name="loading">Loading…</string>
+    <string name="intro">intro</string>
+    <string name="first_intro_title">Welcome to Nimie</string>
+    <string name="first_intro_description">Enjoy the real time messaging experience</string>
+    <string name="second_intro_title">Secure </string>
+    <string name="second_intro_description">Your messages are end to end encrypted</string>
+    <string name="third_intro_title">Let\'s start</string>
+    <string name="third_intro_description">What are you waiting for? login now in avery easy step to get started</string>
+
+
+    <string name="seen_icon" translatable="false">seen icon</string>
+    <string name="message_image" translatable="false">message image</string>
 
 </resources>

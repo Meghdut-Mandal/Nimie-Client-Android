@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+    android:gravity="end"
+    tools:background="@color/blue_black"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/outgoing_first"
+        android:elevation="1dp"
+        android:orientation="vertical"
+        android:padding="5dp"
+        tools:targetApi="lollipop">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="0dp">
+
+            <ImageView
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:contentDescription="@string/message_image"
+                android:background="@android:color/transparent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/shape_image_place_holder_bg"
+                android:visibility="gone" />
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:autoLink="all"
+            android:textColorLink="@color/colorBlueLight"
+            android:maxWidth="250dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="15sp"
+            android:visibility="visible"
+            tools:text="This should contain a long message " />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:autoLink="all"
+                android:textColorLink="@color/colorBlueLight"
+                android:layout_marginStart="14dp"
+                android:layout_marginEnd="8dp"
+                android:maxWidth="250dp"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="15sp"
+                android:visibility="gone"
+                tools:text="This short message" />
+
+            <ProgressBar
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="5dp"
+                android:visibility="gone"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="2dp"
+                android:textColor="@color/colorSecondaryText"
+                android:gravity="bottom"
+                android:textSize="12sp"
+                tools:text="12:15 AM " />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="5dp"
+                android:contentDescription="@string/seen_icon"
+                android:src="@drawable/ic_sent" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

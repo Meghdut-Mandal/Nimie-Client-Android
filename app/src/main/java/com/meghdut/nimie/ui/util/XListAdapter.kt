@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
-class XListAdapter<T : Any>(
+open class XListAdapter<T : Any>(
     @LayoutRes val layout: Int,
     val bindData: View.(T, Int) -> Unit
 ) :
@@ -31,7 +31,7 @@ class XListAdapter<T : Any>(
     }
 }
 
-class GenericViewModel(itemView: View) : RecyclerView.ViewHolder(itemView)
+open class GenericViewModel(itemView: View) : RecyclerView.ViewHolder(itemView)
 
 
 

@@ -11,10 +11,10 @@ import io.grpc.ManagedChannelBuilder
 
 object GrpcClient {
 
-    val connectionString = "8.tcp.ngrok.io:10414".trim()
-    val split = connectionString.split(":")
+    private val connectionString = "2.tcp.ngrok.io:13341".trim()
+    private val split = connectionString.split(":")
     val name = split[0]
-    val port = split[1].toInt()
+    private val port = split[1].toInt()
     private val channel by lazy {
         ManagedChannelBuilder
 //            .forTarget("nimie.smartsms3456.tech")

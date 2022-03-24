@@ -1,16 +1,48 @@
 package com.meghdut.nimie.ui.util
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import com.meghdut.nimie.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.math.absoluteValue
 import kotlin.random.Random
+
+
+
+data class OnBoardingItem(val titleSrcId: Int, val descriptionSrcId: Int, val imageSrcId: Int)
+
+object SplashUtils{
+        fun getOnBoardingItems(): List<OnBoardingItem> = listOf(firstIntro, secondIntro, thirdIntro)
+
+    private val firstIntro: OnBoardingItem = OnBoardingItem(
+        R.string.first_intro_title,
+        R.string.first_intro_description,
+        R.drawable.ic_intro_first
+    )
+
+    private val secondIntro: OnBoardingItem = OnBoardingItem(
+        R.string.second_intro_title,
+        R.string.second_intro_description,
+        R.drawable.ic_intro_second
+    )
+
+    private val thirdIntro: OnBoardingItem = OnBoardingItem(
+        R.string.third_intro_title,
+        R.string.third_intro_description,
+        R.drawable.ic_intro_third
+    )
+}
+
+
 
 
 fun Activity.navigateTo(targetActivity: Class<*>) {
@@ -31,6 +63,35 @@ fun AndroidViewModel.ioTask(func: suspend () -> Unit) {
     viewModelScope.launch(Dispatchers.IO) {
         func()
     }
+}
+
+
+fun Context.getDisplayableDateOfGivenTimeStamp(
+    timeStamp: Long,
+    timeOnly: Boolean
+): String? {
+    val thisDay: Boolean
+    val yesterday: Boolean
+    val date = Date(timeStamp)
+
+    //String format of date only {03/04/2020}
+    val dateString = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(date)
+
+    //String format of date only {12:53 AM}
+    val timeString = SimpleDateFormat("hh:mm a", Locale.getDefault()).format(date)
+    val cal = Calendar.getInstance()
+    cal.time = date
+    val rightNow = Calendar.getInstance()
+    thisDay = rightNow[Calendar.DAY_OF_WEEK] == cal[Calendar.DAY_OF_WEEK]
+    yesterday = rightNow[Calendar.DAY_OF_WEEK] - cal[Calendar.DAY_OF_WEEK] == 1
+    if (timeOnly || thisDay) {
+        return timeString
+    }
+    return if (yesterday) {
+        getString(R.string.yesterday)
+    } else dateString
+
+    // if more than yesterday
 }
 
 

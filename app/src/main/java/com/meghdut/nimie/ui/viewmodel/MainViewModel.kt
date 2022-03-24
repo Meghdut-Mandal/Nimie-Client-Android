@@ -29,6 +29,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun logOutUser() = ioTask {
         userRepo.logOutUser()
+        db.clearAllTables()
         userLiveData.postValue(null)
     }
 
