@@ -11,6 +11,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/ll_message_body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/outgoing_first"
@@ -28,6 +29,7 @@
             app:cardElevation="0dp">
 
             <ImageView
+                android:id="@+id/image_message_iv"
                 android:layout_width="250dp"
                 android:layout_height="250dp"
                 android:contentDescription="@string/message_image"
@@ -39,6 +41,7 @@
         </androidx.cardview.widget.CardView>
 
         <TextView
+            android:id="@+id/tv_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
@@ -53,12 +56,14 @@
             tools:text="This should contain a long message " />
 
         <LinearLayout
+            android:id="@+id/ll_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/tv_small_message"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:autoLink="all"
@@ -72,12 +77,14 @@
                 tools:text="This short message" />
 
             <ProgressBar
+                android:id="@+id/loading_progress"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginTop="5dp"
                 android:visibility="gone"/>
 
             <TextView
+                android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="2dp"
@@ -89,6 +96,7 @@
                 tools:text="12:15 AM " />
 
             <ImageView
+                android:id="@+id/iv_message_state"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginTop="5dp"

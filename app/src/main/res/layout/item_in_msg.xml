@@ -9,6 +9,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/ll_message_body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/receiving_first"
@@ -29,6 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <ImageView
+                    android:id="@+id/image_message_iv"
                     android:layout_width="250dp"
                     android:layout_height="250dp"
                     android:contentDescription="@string/message_image"
@@ -37,6 +39,7 @@
                     android:visibility="gone" />
 
                 <ProgressBar
+                    android:id="@+id/loading_progress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -47,6 +50,7 @@
         </androidx.cardview.widget.CardView>
 
         <TextView
+            android:id="@+id/tv_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:autoLink="all"
@@ -61,12 +65,14 @@
             tools:text="This should contain a long message " />
 
         <LinearLayout
+            android:id="@+id/ll_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/tv_small_message"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:autoLink="all"
@@ -80,6 +86,7 @@
                 tools:text="This short message" />
 
             <TextView
+                android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="2dp"
