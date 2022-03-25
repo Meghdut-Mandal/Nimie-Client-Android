@@ -63,7 +63,7 @@ class ChatAdapter : PagingDataAdapter<ChatMessage, GenericViewModel>(diffUtil())
 
         fun handleMessageText(message: ChatMessage) {
             var messageText = ""
-            if (message.contentType === com.meghdut.nimie.data.model.ContentType.TXT) {
+            if (message.contentType == ContentType.TXT) {
                 messageText = message.message
             }
             val textMinimumLong = "This is a short message"
@@ -104,23 +104,19 @@ class ChatAdapter : PagingDataAdapter<ChatMessage, GenericViewModel>(diffUtil())
             }
             if (prevMessage != null && !isPreviousMessageReceivingType) {
                 params.setMargins(3, 5, 3, 8)
-                bind.llMessageBody.setLayoutParams(params)
-                bind.llMessageBody.setBackground(
-                    ResourcesCompat.getDrawable(
-                        holder.itemView.resources,
-                        R.drawable.outgoing_second,
-                        null
-                    )
+                bind.llMessageBody.layoutParams = params
+                bind.llMessageBody.background = ResourcesCompat.getDrawable(
+                    holder.itemView.resources,
+                    R.drawable.outgoing_second,
+                    null
                 )
             } else {
                 params.setMargins(3, 25, 3, 8)
-                bind.llMessageBody.setLayoutParams(params)
-                bind.llMessageBody.setBackground(
-                    ResourcesCompat.getDrawable(
-                        holder.itemView.resources,
-                        R.drawable.outgoing_first,
-                        null
-                    )
+                bind.llMessageBody.layoutParams = params
+                bind.llMessageBody.background = ResourcesCompat.getDrawable(
+                    holder.itemView.resources,
+                    R.drawable.outgoing_first,
+                    null
                 )
             }
         }
@@ -128,19 +124,19 @@ class ChatAdapter : PagingDataAdapter<ChatMessage, GenericViewModel>(diffUtil())
         fun handleMessageText(message: ChatMessage) {
 
             var messageText = ""
-            if (message.contentType === ContentType.TXT) {
+            if (message.contentType == ContentType.TXT) {
                 messageText = message.message
             }
             val textMinimumLong = "This is a short message"
             val messageLength = messageText.length
             if (messageLength <= textMinimumLong.length) {
-                bind.tvMessage.setVisibility(View.GONE)
-                bind.tvSmallMessage.setVisibility(View.VISIBLE)
-                bind.tvSmallMessage.setText(messageText)
+                bind.tvMessage.visibility = View.GONE
+                bind.tvSmallMessage.visibility = View.VISIBLE
+                bind.tvSmallMessage.text = messageText
             } else {
-                bind.tvMessage.setVisibility(View.VISIBLE)
-                bind.tvSmallMessage.setVisibility(View.GONE)
-                bind.tvMessage.setText(messageText)
+                bind.tvMessage.visibility = View.VISIBLE
+                bind.tvSmallMessage.visibility = View.GONE
+                bind.tvMessage.text = messageText
             }
         }
 

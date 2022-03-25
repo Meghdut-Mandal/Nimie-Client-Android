@@ -7,6 +7,7 @@ import com.meghdut.nimie.data.dao.NimieDb
 import com.meghdut.nimie.ui.model.SplashUIState
 import com.meghdut.nimie.repository.UserRepository
 import com.meghdut.nimie.ui.util.ioTask
+import kotlinx.coroutines.runBlocking
 
 class SplashViewModel(application: Application) : AndroidViewModel(application) {
 
