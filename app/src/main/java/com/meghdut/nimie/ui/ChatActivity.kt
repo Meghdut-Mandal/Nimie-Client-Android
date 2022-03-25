@@ -1,8 +1,10 @@
 package com.meghdut.nimie.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.load
@@ -12,7 +14,7 @@ import com.meghdut.nimie.ui.util.ChatAdapter
 import com.meghdut.nimie.ui.util.avatar
 import com.meghdut.nimie.ui.viewmodel.ChatViewModel
 
-class ChatActivity : AppCompatActivity(R.layout.activity_chat) {
+class ChatActivity : AppCompatActivity(R.layout.activity_chat), LifecycleObserver {
     val viewModel: ChatViewModel by viewModels()
     private val binding by viewBinding(ActivityChatBinding::bind)
 
@@ -56,4 +58,11 @@ class ChatActivity : AppCompatActivity(R.layout.activity_chat) {
         }
 
     }
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.closeConversation()
+    }
+
+
 }

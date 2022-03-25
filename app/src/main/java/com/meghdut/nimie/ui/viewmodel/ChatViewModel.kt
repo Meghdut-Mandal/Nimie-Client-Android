@@ -42,4 +42,8 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
          }
         return conversationRepository.getMessages(convid)
     }
+
+    fun closeConversation() {
+        currentConversation.value?.conversationId?.let { conversationRepository.closeConversation(it) }
+    }
 }

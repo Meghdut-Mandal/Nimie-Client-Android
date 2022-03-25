@@ -11,7 +11,7 @@ import io.grpc.ManagedChannelBuilder
 
 object GrpcClient {
 
-    private val connectionString = "8.tcp.ngrok.io:14220".trim()
+    private val connectionString = "2.tcp.ngrok.io:14667".trim()
     private val split = connectionString.split(":")
     val name = split[0]
     private val port = split[1].toInt()

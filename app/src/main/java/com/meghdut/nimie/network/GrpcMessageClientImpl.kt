@@ -62,6 +62,6 @@ class GrpcMessageClientImpl(
      }
 
     override fun onCompleted() {
-        println("Connection closed!")
+        println("Connection closed! $conversationId")
     }
 }

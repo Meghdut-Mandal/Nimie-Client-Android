@@ -69,4 +69,8 @@ class ConversationRepository(db: NimieDb) {
     fun sendMessage(chatMessage: ChatMessage){
         chatClients[chatMessage.conversationId]?.sendMessage(chatMessage)
     }
+
+    fun closeConversation(conversationId: Long) {
+        chatClients[conversationId]?.closeChat()
+    }
 }
