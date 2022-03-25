@@ -13,8 +13,28 @@ class GrpcMessageClientImpl(
     val handler: (ChatMessage) -> Unit
 ) : MessagingClient, StreamObserver<Nimie.ChatServerResponse> {
 
-    private val conectedStub: NimieApiGrpc.NimieApiStub = NimieApiGrpc.newStub(channel)
-    private val observer: StreamObserver<Nimie.ChatClientRequest> = conectedStub.chatConnect(this)
+
+    companion object {
+        const val SIMPLE_MSG_TYPE = 1
+        const val PING_PONG_TYPE = 4
+    }
+
+    private val connectedStub: NimieApiGrpc.NimieApiStub = NimieApiGrpc.newStub(channel)
+    private val observer: StreamObserver<Nimie.ChatClientRequest> = connectedStub.chatConnect(this)
+
+    init {
+        // sending a ping message
+        val apiMessage = Nimie.ApiTextMessage.newBuilder()
+            .setConversationId(conversationId)
+            .setUserId(userId)
+        observer.onNext(
+            Nimie.ChatClientRequest.newBuilder()
+                .setMessage(apiMessage)
+                .setMessageType(PING_PONG_TYPE)
+                .build()
+        )
+
+    }
 
 
     override fun sendMessage(chatMessage: ChatMessage) {
@@ -22,16 +42,13 @@ class GrpcMessageClientImpl(
         val apiMessage = Nimie.ApiTextMessage.newBuilder()
             .setMessage(chatMessage.message)
             .setConversationId(chatMessage.conversationId)
-            .setCreateTime(0)
-            .setIsSeen(false)
             .setUserId(userId)
             .setContentType(chatMessage.contentType)
-
 
         observer.onNext(
             Nimie.ChatClientRequest.newBuilder()
                 .setMessage(apiMessage)
-                .setMessageType(1)
+                .setMessageType(SIMPLE_MSG_TYPE)
                 .build()
         )
     }
@@ -41,10 +58,11 @@ class GrpcMessageClientImpl(
     }
 
     override fun onNext(response: Nimie.ChatServerResponse) {
-        if (response.messageType == 1){
+        if (response.messageType == SIMPLE_MSG_TYPE) {
             val apiMessage = response.messages
             val chatMessage = apiMessage.let {
-                ChatMessage(it.conversationId,
+                ChatMessage(
+                    it.conversationId,
                     it.createTime,
                     it.message,
                     it.isSeen,
@@ -59,7 +77,7 @@ class GrpcMessageClientImpl(
 
     override fun onError(t: Throwable) {
         t.printStackTrace()
-     }
+    }
 
     override fun onCompleted() {
         println("Connection closed! $conversationId")
