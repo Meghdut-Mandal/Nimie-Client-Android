@@ -94,7 +94,7 @@
             android:contentDescription="@string/msg_no_chat_yet"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_empty_chat"
-            android:visibility="visible"/>
+            android:visibility="invisible"/>
 
         <TextView
             android:layout_width="match_parent"

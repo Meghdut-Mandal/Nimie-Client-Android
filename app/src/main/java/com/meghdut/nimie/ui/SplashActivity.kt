@@ -16,12 +16,10 @@ import com.meghdut.nimie.ui.viewmodel.SplashViewModel
 
 class SplashActivity : AppCompatActivity(R.layout.activity_splash) {
     private val viewModel: SplashViewModel by viewModels()
-    private lateinit var binding:ActivitySplashBinding
+    private val binding by viewBinding(ActivitySplashBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.checkActiveUser()
-        binding = ActivitySplashBinding.inflate(layoutInflater)
 
         val onBoardingViewPager = findViewById<ViewPager2>(R.id.introViewPager)
         onBoardingViewPager.adapter = OnBoardingAdapter(SplashUtils.getOnBoardingItems())
@@ -46,7 +44,7 @@ class SplashActivity : AppCompatActivity(R.layout.activity_splash) {
         binding.loginBtn.setOnClickListener {
             viewModel.createLocalUser()
         }
-
+        viewModel.checkActiveUser()
 
 
         viewModel.uiState.observe(this) {
@@ -54,6 +52,7 @@ class SplashActivity : AppCompatActivity(R.layout.activity_splash) {
             binding.loginBtn.visibility = View.INVISIBLE
             when (it) {
                 is SplashUIState.Success -> {
+                    snackBar(binding.root, "User made ! ${it.localUser.name}")
                     navigateTo(MainActivity::class.java)
                 }
                 is SplashUIState.Working -> {
