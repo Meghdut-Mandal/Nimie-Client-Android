@@ -298,7 +298,7 @@
             android:padding="2dp">
 
             <EditText
-                android:id="@+id/send_msg_et"
+                android:id="@+id/msg_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"

@@ -30,7 +30,7 @@ class ChatActivity : AppCompatActivity(R.layout.activity_chat) {
         binding.msgRv.layoutManager = llm
         binding.msgRv.adapter = adapter
 
-        val conversationId = intent.getLongExtra(CONVERSATION_ID,0)
+        val conversationId = intent.getLongExtra(CONVERSATION_ID, 0)
 
 
         viewModel.getMessages(conversationId).observe(this) {
@@ -38,6 +38,7 @@ class ChatActivity : AppCompatActivity(R.layout.activity_chat) {
                 adapter.submitData(lifecycle, it)
             }
         }
+        viewModel.openConversation(conversationId)
 
         viewModel.currentConversation.observe(this) {
             it?.let {
@@ -48,6 +49,11 @@ class ChatActivity : AppCompatActivity(R.layout.activity_chat) {
             }
         }
 
+        binding.sendIv.setOnClickListener {
+            val text = binding.msgText.text.trim().toString()
+            binding.msgText.setText("")
+            viewModel.sendMessage(text)
+        }
 
     }
 }

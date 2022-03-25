@@ -1,23 +1,22 @@
 package com.meghdut.nimie.network
 
+import com.meghdut.nimie.data.model.ChatMessage
 import com.meghdut.nimie.data.model.LocalConversation
 import com.meghdut.nimie.data.model.LocalStatus
 import com.meghdut.nimie.network.grpc_api.Nimie.*
 import com.meghdut.nimie.network.grpc_api.NimieApiGrpc
-import com.meghdut.nimie.ui.util.avatar
 import com.meghdut.nimie.ui.util.randomName
 import io.grpc.ManagedChannelBuilder
 
 
 object GrpcClient {
 
-    private val connectionString = "2.tcp.ngrok.io:13341".trim()
+    private val connectionString = "8.tcp.ngrok.io:14220".trim()
     private val split = connectionString.split(":")
     val name = split[0]
     private val port = split[1].toInt()
     private val channel by lazy {
         ManagedChannelBuilder
-//            .forTarget("nimie.smartsms3456.tech")
             .forAddress(name, port)
             .usePlaintext()
             .build()
@@ -100,7 +99,7 @@ object GrpcClient {
                 .build()
         )
 
-       return  conversationList.conversationsOrBuilderList.map {
+        return conversationList.conversationsOrBuilderList.map {
             LocalConversation(
                 it.conversationId,
                 it.statusId,
@@ -112,5 +111,12 @@ object GrpcClient {
             )
         }
     }
+
+
+    fun startChatConversation(
+        userId: Long,
+        conversationId: Long,
+        handler: (ChatMessage) -> Unit
+    ): MessagingClient = GrpcMessageClientImpl(userId, channel, conversationId,handler)
 
 }
