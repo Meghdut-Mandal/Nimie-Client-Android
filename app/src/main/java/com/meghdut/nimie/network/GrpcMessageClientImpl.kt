@@ -8,7 +8,7 @@ import io.grpc.stub.StreamObserver
 
 class GrpcMessageClientImpl(
     val userId: Long,
-    channel: ManagedChannel,
+    val channel: ManagedChannel,
     val conversationId: Long,
     val handler: (ChatMessage) -> Unit
 ) : MessagingClient, StreamObserver<Nimie.ChatServerResponse> {
@@ -53,26 +53,61 @@ class GrpcMessageClientImpl(
         )
     }
 
+    override fun syncMessages(messageId: Long) {
+        val request = Nimie.GetConversationMessagesRequest.newBuilder()
+            .setUserId(userId)
+            .setConversationId(conversationId)
+            .setLastMessageId(messageId)
+            .build()
+        connectedStub.getConversationMessages(request,
+            object : StreamObserver<Nimie.ChatServerResponse> {
+                var msgCount = 0
+                override fun onNext(value: Nimie.ChatServerResponse) {
+                    handler(value.toLocalMessage())
+                    msgCount++
+                }
+
+                override fun onError(t: Throwable) {
+                    println("Error Syncing messages!!")
+                    t.printStackTrace()
+                }
+
+                override fun onCompleted() {
+                    println("Completed Sync of $msgCount")
+
+                }
+            })
+    }
+
     override fun closeChat() {
-        observer.onCompleted()
+        try {
+            observer.onCompleted()
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
     }
 
     override fun onNext(response: Nimie.ChatServerResponse) {
         if (response.messageType == SIMPLE_MSG_TYPE) {
-            val apiMessage = response.messages
-            val chatMessage = apiMessage.let {
-                ChatMessage(
-                    it.conversationId,
-                    it.createTime,
-                    it.message,
-                    it.isSeen,
-                    it.contentType,
-                    it.messageId,
-                    it.userId
-                )
-            }
+            val chatMessage = response.toLocalMessage()
             handler(chatMessage)
         }
+    }
+
+    private fun Nimie.ChatServerResponse.toLocalMessage(): ChatMessage {
+        val apiMessage = messages
+        val chatMessage = apiMessage.let {
+            ChatMessage(
+                it.conversationId,
+                it.createTime,
+                it.message,
+                it.isSeen,
+                it.contentType,
+                it.messageId,
+                it.userId
+            )
+        }
+        return chatMessage
     }
 
     override fun onError(t: Throwable) {

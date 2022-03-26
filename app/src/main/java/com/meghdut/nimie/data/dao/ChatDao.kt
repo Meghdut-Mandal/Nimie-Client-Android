@@ -17,4 +17,7 @@ interface ChatDao {
     @Query("SELECT * from chat_messages  where conversationId = :conversationId order by createTime")
     fun getMessagesPagingData(conversationId: Long): DataSource.Factory<Int, ChatMessage>
 
+    @Query("SELECT max(messageId) from chat_messages where conversationId = :conversationId")
+    fun getLatestMessageId(conversationId: Long) : Long?
+
 }

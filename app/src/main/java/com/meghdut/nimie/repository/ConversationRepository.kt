@@ -63,10 +63,13 @@ class ConversationRepository(db: NimieDb) {
         val client = GrpcClient.startChatConversation(userId, conversationId) {
             chatDao.insert(it)
         }
+        val lastMessageId = chatDao.getLatestMessageId(conversationId) ?: 0
+        client.syncMessages(lastMessageId)
+
         chatClients[conversationId] = client
     }
 
-    fun sendMessage(chatMessage: ChatMessage){
+    fun sendMessage(chatMessage: ChatMessage) {
         chatClients[chatMessage.conversationId]?.sendMessage(chatMessage)
     }
 

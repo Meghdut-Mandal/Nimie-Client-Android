@@ -11,7 +11,7 @@ import io.grpc.ManagedChannelBuilder
 
 object GrpcClient {
 
-    private val connectionString = "4.tcp.ngrok.io:17478".trim()
+    private val connectionString = "8.tcp.ngrok.io:12423".trim()
     private val split = connectionString.split(":")
     val name = split[0]
     private val port = split[1].toInt()
@@ -118,5 +118,6 @@ object GrpcClient {
         conversationId: Long,
         handler: (ChatMessage) -> Unit
     ): MessagingClient = GrpcMessageClientImpl(userId, channel, conversationId,handler)
+
 
 }

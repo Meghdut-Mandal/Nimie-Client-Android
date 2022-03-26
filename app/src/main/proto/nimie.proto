@@ -59,6 +59,7 @@ message InitiateConversationRequest {
 message GetConversationMessagesRequest {
   int64 last_message_id = 1;
   int64 conversation_id = 2;
+  int64 user_id = 3;
 }
 
 message GenericRequest {
@@ -83,7 +84,7 @@ message ConversationListRequest {
 
 message ChatClientRequest {
   ApiTextMessage message = 1;
-  int32 message_type = 2; // messageType =  1 for text Message, 2 for Image, 3 for Typing Indicator  4 and above for Messages list
+  int32 message_type = 2; // messageType =  1 for text Message, 2 for Image, 3 for Typing Indicator, 4 for ping message
 }
 
 
@@ -91,7 +92,7 @@ message ChatClientRequest {
 
 
 message ChatServerResponse {
-  int32 message_type = 1; //messageType =  1 for normal Message, 2 Typing Indicator, 3 for no more messages
+  int32 message_type = 1; //messageType =  1 for normal Message, 2 Typing Indicator, 3 for no more messages , 4 for pong message
   ApiTextMessage messages = 2;
 }
 
@@ -150,7 +151,7 @@ service NimieApi {
   rpc GetBulkStatus(GetBulkStatusRequest) returns (GetBulkStatusResponse);
 
   // conversation api
-  rpc GetConversationMessages(GetConversationMessagesRequest) returns (GetConversationMessagesResponse);
+  rpc GetConversationMessages(GetConversationMessagesRequest) returns (stream ChatServerResponse);
   rpc GetConversationList(ConversationListRequest) returns (ConversationListResponse);
 
   // chat APi
