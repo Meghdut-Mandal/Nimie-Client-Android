@@ -3,6 +3,7 @@ package com.meghdut.nimie.data.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import java.security.PublicKey
 
 @Entity(tableName = "local_status")
 data class LocalStatus(
@@ -17,5 +18,8 @@ data class LocalStatus(
     val linkId: String,
 
     @SerializedName("user_name")
-    val userName: String
+    val userName: String,
+
+    @SerializedName("public_key")
+    val publicKey: String
 )

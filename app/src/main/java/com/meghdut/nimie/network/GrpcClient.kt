@@ -36,7 +36,7 @@ object GrpcClient {
         return user.userId
     }
 
-    fun createStatus(status: String, userId: Long): LocalStatus {
+    fun createStatus(status: String, userId: Long, publicKey: String, name: String): LocalStatus {
         val created = stub.createStatus(
             CreateStatusRequest
                 .newBuilder()
@@ -50,7 +50,8 @@ object GrpcClient {
             status,
             created.createTime,
             created.linkId,
-            randomName
+            name,
+            publicKey
         )
     }
 
@@ -65,7 +66,8 @@ object GrpcClient {
                 it.text,
                 it.createTime,
                 it.linkId,
-                randomName
+                randomName,
+                it.publicKey
             )
         }
     }

@@ -18,7 +18,7 @@ interface ConversationDao {
     fun insert(localConversation: LocalConversation)
 
     @Query("SELECT * from local_conversation where conversationId = :conversationId limit 1")
-    suspend fun getConversation(conversationId: Long): LocalConversation
+    fun getConversation(conversationId: Long): LocalConversation
 
     @Update
     fun update(localConversation: LocalConversation)

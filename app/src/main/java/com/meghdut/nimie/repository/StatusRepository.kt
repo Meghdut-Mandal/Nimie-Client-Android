@@ -1,7 +1,6 @@
 package com.meghdut.nimie.repository
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -13,10 +12,12 @@ import kotlinx.coroutines.Dispatchers
 
 class StatusRepository(db: NimieDb) {
     private val statusDao = db.statusDao()
+    private val userDao = db.userDao()
 
 
     fun createStatus(status: String, userId: Long): LocalStatus {
-        val createdStatus = GrpcClient.createStatus(status, userId)
+        val activeUser = userDao.getActiveUser()
+        val createdStatus = GrpcClient.createStatus(status, userId,activeUser.publicKey,activeUser.name)
         statusDao.insert(createdStatus)
 
         return createdStatus
