@@ -15,7 +15,10 @@ interface SQLCacheDao {
     @Query("select data from cache_entry where hashKey=:key limit 1")
     fun getEntry(key: Int): String
 
-    fun put(key: Int,value:String){
-        insertEntry(CacheEntry(key,value))
+    @Query("select count(*)> 0 from cache_entry where hashKey=:key ")
+    fun contains(key: Int): Boolean
+
+    fun put(key: Int, value: String) {
+        insertEntry(CacheEntry(key, value))
     }
 }

@@ -6,8 +6,6 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
 import com.meghdut.nimie.data.dao.NimieDb
-import com.meghdut.nimie.data.dao.SQLCacheDao
-import com.meghdut.nimie.data.model.CacheEntry
 import com.meghdut.nimie.data.model.ChatMessage
 import com.meghdut.nimie.data.model.LocalConversation
 import com.meghdut.nimie.network.GrpcClient
@@ -17,32 +15,13 @@ import kotlinx.coroutines.Dispatchers
 
 class ConversationRepository(db: NimieDb) {
     private val conversationDao = db.conversationDao()
-    private val statusDao = db.statusDao()
     private val chatDao = db.chatDao()
     private val userDao = db.userDao()
-    private val messageCache = db.getCacheEntry()
+    private val messageCache = db.getSqlCacheDao()
 
     private val chatClients = mutableMapOf<Long, MessagingClient>()
     private val conversationCache = mutableMapOf<Long, LocalConversation>()
 
-    fun replyConversation(
-        reply: String,
-        userId: Long,
-        statusId: Long
-    ): LocalConversation {
-
-        val status = statusDao.getStatusById(statusId)
-
-        val encryptedReply = CryptoUtils.encrypt(reply, status.publicKey)
-
-        messageCache.put(encryptedReply.hashCode(),reply)
-
-        val chat = GrpcClient.replyToStatus(encryptedReply, userId, statusId, status.userName)
-
-        conversationDao.insert(chat)
-
-        return chat
-    }
 
     fun getConversations(): LiveData<PagingData<LocalConversation>> {
         val dataSourceFactory = conversationDao.getConversationDataSource()
@@ -54,7 +33,15 @@ class ConversationRepository(db: NimieDb) {
     }
 
     suspend fun loadConversations(userId: Long) {
-        val conversationList = GrpcClient.getConversationList(userId)
+        val conversationList = GrpcClient.getConversationList(userId).map {
+            if (messageCache.contains(it.lastText.hashCode())){
+                return@map it.copy(lastText = messageCache.getEntry(it.lastText.hashCode()))
+            }else {
+                val currentUser= userDao.getActiveUser()
+                val decryptedText = CryptoUtils.decrypt(it.lastText,currentUser.privateKey)
+                return@map it.copy(lastText = decryptedText)
+            }
+        }
         conversationDao.insertAll(conversationList)
     }
 

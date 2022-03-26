@@ -24,7 +24,7 @@ abstract class NimieDb : RoomDatabase() {
 
     abstract fun statusDao(): StatusDao
 
-    abstract fun getCacheEntry() : SQLCacheDao
+    abstract fun getSqlCacheDao() : SQLCacheDao
 
     companion object {
 

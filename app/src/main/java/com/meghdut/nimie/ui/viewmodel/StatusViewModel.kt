@@ -18,8 +18,6 @@ class StatusViewModel(application: Application) : AndroidViewModel(application) 
 
     private val statusRepository by lazy { StatusRepository(db) }
 
-    private val conversationRepository by lazy { ConversationRepository(db) }
-
     val addStatusLiveData = MutableLiveData<ApiUIState<LocalStatus>>()
 
     val replyConLiveData = MutableLiveData<ApiUIState<LocalConversation>>()
@@ -46,7 +44,7 @@ class StatusViewModel(application: Application) : AndroidViewModel(application) 
         try {
             replyConLiveData.postValue(ApiUIState.Loading(reply))
             val currentActiveUser = userRepository.getCurrentActiveUser()
-            val replyConversation = conversationRepository.replyConversation(
+            val replyConversation = statusRepository.replyConversation(
                 reply,
                 currentActiveUser.userId,
                 statusId

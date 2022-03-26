@@ -16,7 +16,6 @@ class ConversationViewModel(application: Application) : AndroidViewModel(applica
 
     val conversation get() = conversationRepository.getConversations()
 
-
     fun loadConversations() = ioTask {
         val currentActiveUser = userRepo.getCurrentActiveUser()
         conversationRepository.loadConversations(currentActiveUser.userId)
