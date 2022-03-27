@@ -30,7 +30,7 @@
         <entry key="app/src/main/res/layout/add_status.xml" value="0.16015625" />
         <entry key="app/src/main/res/layout/conversation_item.xml" value="0.3055555555555556" />
         <entry key="app/src/main/res/layout/fragment_conversation.xml" value="0.16015625" />
-        <entry key="app/src/main/res/layout/fragment_status_fragments.xml" value="0.20061187744140624" />
+        <entry key="app/src/main/res/layout/fragment_status_fragments.xml" value="0.37403106689453125" />
         <entry key="app/src/main/res/layout/item_in_msg.xml" value="0.140234375" />
         <entry key="app/src/main/res/layout/item_out_msg.xml" value="0.1484375" />
         <entry key="app/src/main/res/layout/layout_text_prompt.xml" value="0.1484375" />

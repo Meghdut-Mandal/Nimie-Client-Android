@@ -55,6 +55,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_baseline_add_24"
-        app:tint="#FF03A9F1" />
+        app:tint="#3F51B5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
