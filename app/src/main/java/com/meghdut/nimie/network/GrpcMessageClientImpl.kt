@@ -1,5 +1,6 @@
 package com.meghdut.nimie.network
 
+import com.google.protobuf.ByteString
 import com.meghdut.nimie.data.model.ChatMessage
 import com.meghdut.nimie.network.grpc_api.Nimie
 import com.meghdut.nimie.network.grpc_api.NimieApiGrpc
@@ -8,7 +9,7 @@ import io.grpc.stub.StreamObserver
 
 class GrpcMessageClientImpl(
     val userId: Long,
-    val channel: ManagedChannel,
+    channel: ManagedChannel,
     val conversationId: Long,
     val handler: (ChatMessage) -> Unit
 ) : MessagingClient, StreamObserver<Nimie.ChatServerResponse> {
@@ -40,7 +41,7 @@ class GrpcMessageClientImpl(
     override fun sendMessage(chatMessage: ChatMessage) {
 
         val apiMessage = Nimie.ApiTextMessage.newBuilder()
-            .setMessage(chatMessage.message)
+            .setMessage(ByteString.copyFrom(chatMessage.message))
             .setConversationId(chatMessage.conversationId)
             .setUserId(userId)
             .setContentType(chatMessage.contentType)
@@ -100,7 +101,7 @@ class GrpcMessageClientImpl(
             ChatMessage(
                 it.conversationId,
                 it.createTime,
-                it.message,
+                it.message.toByteArray(),
                 it.isSeen,
                 it.contentType,
                 it.messageId,

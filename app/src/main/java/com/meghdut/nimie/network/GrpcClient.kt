@@ -1,5 +1,6 @@
 package com.meghdut.nimie.network
 
+import com.google.protobuf.ByteString
 import com.meghdut.nimie.data.model.ChatMessage
 import com.meghdut.nimie.data.model.LocalConversation
 import com.meghdut.nimie.data.model.LocalStatus
@@ -24,19 +25,19 @@ object GrpcClient {
     private val stub by lazy { NimieApiGrpc.newBlockingStub(channel) }
 
 
-    fun createUser(publicKey: String): Long {
+    fun createUser(publicKey: ByteArray): Long {
         val user = stub.registerUser(
             RegisterUserRequest
                 .newBuilder()
-                .setPubicKey(publicKey)
+                .setPubicKey(ByteString.copyFrom(publicKey))
                 .build()
         )
 
-        println("User created !! ${user.jwt} ${user.userId}")
+        println("User created !! ${user.userId} ${user.userId}")
         return user.userId
     }
 
-    fun createStatus(status: String, userId: Long, publicKey: String, name: String): LocalStatus {
+    fun createStatus(status: String, userId: Long, publicKey: ByteArray, name: String): LocalStatus {
         val created = stub.createStatus(
             CreateStatusRequest
                 .newBuilder()
@@ -67,19 +68,19 @@ object GrpcClient {
                 it.createTime,
                 it.linkId,
                 randomName,
-                it.publicKey
+                it.publicKey.toByteArray()
             )
         }
     }
 
     fun replyToStatus(
-        reply: String,
+        reply: ByteArray,
         userId: Long,
         statusId: Long,
         otherName: String
     ): LocalConversation {
         val conversationCreated = stub.replyStatus(
-            InitiateConversationRequest.newBuilder().setReply(reply).setStatusId(statusId)
+            InitiateConversationRequest.newBuilder().setReply(ByteString.copyFrom(reply)).setStatusId(statusId)
                 .setUserId(userId).build()
         )
         val timeNow = System.currentTimeMillis()
@@ -91,7 +92,7 @@ object GrpcClient {
             otherName,
             timeNow,
             reply,
-            conversationCreated.publicKey
+            conversationCreated.publicKey.toByteArray()
         )
     }
 
@@ -108,8 +109,8 @@ object GrpcClient {
                 it.createTime,
                 randomName,
                 it.createTime,
-                it.lastReply,
-                it.otherPublicKey
+                it.lastReply.toByteArray(),
+                it.otherPublicKey.toByteArray()
             )
         }
     }

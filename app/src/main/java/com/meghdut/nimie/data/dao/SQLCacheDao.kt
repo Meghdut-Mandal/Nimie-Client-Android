@@ -13,12 +13,18 @@ interface SQLCacheDao {
     fun insertEntry(cacheEntry: CacheEntry)
 
     @Query("select data from cache_entry where hashKey=:key limit 1")
-    fun getEntry(key: Int): String
+    fun getEntry(key: Int): ByteArray
 
     @Query("select count(*)> 0 from cache_entry where hashKey=:key ")
     fun contains(key: Int): Boolean
 
-    fun put(key: Int, value: String) {
-        insertEntry(CacheEntry(key, value))
+    fun put(key: ByteArray, value: ByteArray) {
+        val contentHashCode = key.contentHashCode()
+        insertEntry(CacheEntry(contentHashCode, value))
+    }
+
+    fun getEntry(key:ByteArray): ByteArray {
+        val contentHashCode = key.contentHashCode()
+        return getEntry(contentHashCode)
     }
 }

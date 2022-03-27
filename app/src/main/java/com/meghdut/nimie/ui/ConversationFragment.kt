@@ -33,7 +33,7 @@ class ConversationFragment : Fragment(R.layout.fragment_conversation) {
 
         bind.dpIv.load(avatar(item.otherName))
         bind.userNametv.text = item.otherName
-        bind.statusTxtTv.text = item.lastText
+        bind.statusTxtTv.text = String(item.lastText)
         val date = Date(item.createTime)
         bind.timeTv.text = dateFormat.format(date)
         bind.root.setOnClickListener {

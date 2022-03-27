@@ -35,9 +35,9 @@ class ConversationRepository(db: NimieDb) {
     suspend fun loadConversations(userId: Long) {
         val conversationList = GrpcClient.getConversationList(userId).map {
             if (messageCache.contains(it.lastText.hashCode())){
-                return@map it.copy(lastText = messageCache.getEntry(it.lastText.hashCode()))
+                return@map it.copy(lastText = messageCache.getEntry(it.lastText))
             }else {
-                val currentUser= userDao.getActiveUser()
+                val currentUser = userDao.getActiveUser()
                 val decryptedText = CryptoUtils.decrypt(it.lastText,currentUser.privateKey)
                 return@map it.copy(lastText = decryptedText)
             }
@@ -94,7 +94,7 @@ class ConversationRepository(db: NimieDb) {
 
         if (userId == 0L) {
         // if the message was sent by us look for it in the cache
-            return copy(message = messageCache.getEntry(message.hashCode()))
+            return copy(message = messageCache.getEntry(message))
         }
 
         val decryptedMessage = CryptoUtils.decrypt(message, currentActiveUser.privateKey)
@@ -107,7 +107,7 @@ class ConversationRepository(db: NimieDb) {
         val encryptedMessage = CryptoUtils.encrypt(message, conversation.otherPublicKey)
 
         // add the message to cache
-        messageCache.put(encryptedMessage.hashCode(),message)
+        messageCache.put(encryptedMessage,message)
 
         return copy(message = encryptedMessage)
     }

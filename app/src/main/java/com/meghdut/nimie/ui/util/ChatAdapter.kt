@@ -64,7 +64,7 @@ class ChatAdapter : PagingDataAdapter<ChatMessage, GenericViewModel>(diffUtil())
         fun handleMessageText(message: ChatMessage) {
             var messageText = ""
             if (message.contentType == ContentType.TXT) {
-                messageText = message.message
+                messageText = message.textMessage
             }
             val textMinimumLong = "This is a short message"
             val messageLength = messageText.length
@@ -125,7 +125,7 @@ class ChatAdapter : PagingDataAdapter<ChatMessage, GenericViewModel>(diffUtil())
 
             var messageText = ""
             if (message.contentType == ContentType.TXT) {
-                messageText = message.message
+                messageText = message.textMessage
             }
             val textMinimumLong = "This is a short message"
             val messageLength = messageText.length

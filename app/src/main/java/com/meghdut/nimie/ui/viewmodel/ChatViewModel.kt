@@ -20,26 +20,33 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
     private val userRepository by lazy { UserRepository(db) }
     private val currentActiveUser by lazy { userRepository.getCurrentActiveUser() }
 
-     val currentConversation = MutableLiveData<LocalConversation>()
+    val currentConversation = MutableLiveData<LocalConversation>()
 
 
-
-    fun sendMessage(text:String)= ioTask {
+    fun sendMessage(text: String) = ioTask {
         val localConversation = currentConversation.value ?: return@ioTask
-        val chatMessage = ChatMessage(localConversation.conversationId,0,text,false,ContentType.TXT,0,0)
-         conversationRepository.sendMessage(chatMessage)
+        val chatMessage = ChatMessage(
+            localConversation.conversationId,
+            0,
+            text.toByteArray(),
+            false,
+            ContentType.TXT,
+            0,
+            0
+        )
+        conversationRepository.sendMessage(chatMessage)
     }
 
-    fun openConversation(convid: Long) = ioTask{
-        conversationRepository.openConversation(currentActiveUser.userId,convid)
+    fun openConversation(convid: Long) = ioTask {
+        conversationRepository.openConversation(currentActiveUser.userId, convid)
         println("Opned a conversation stream for $convid")
     }
 
-    fun getMessages(convid:Long): LiveData<PagingData<ChatMessage>> {
-         ioTask {
-             val localConversation = conversationRepository.getConversation(convid)
-             currentConversation.postValue(localConversation)
-         }
+    fun getMessages(convid: Long): LiveData<PagingData<ChatMessage>> {
+        ioTask {
+            val localConversation = conversationRepository.getConversation(convid)
+            currentConversation.postValue(localConversation)
+        }
         return conversationRepository.getMessages(convid)
     }
 

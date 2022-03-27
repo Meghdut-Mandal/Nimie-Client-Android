@@ -27,9 +27,11 @@ class StatusRepository(db: NimieDb) {
 
         val status = statusDao.getStatusById(statusId)
 
-        val encryptedReply = CryptoUtils.encrypt(reply, status.publicKey)
+        val replyBytes = reply.toByteArray()
 
-        messageCache.put(encryptedReply.hashCode(),reply)
+        val encryptedReply = CryptoUtils.encrypt(replyBytes, status.publicKey)
+
+        messageCache.put(encryptedReply,replyBytes)
 
         val chat = GrpcClient.replyToStatus(encryptedReply, userId, statusId, status.userName)
 
