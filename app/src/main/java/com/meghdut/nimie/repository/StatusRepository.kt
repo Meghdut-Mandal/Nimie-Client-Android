@@ -35,7 +35,7 @@ class StatusRepository(db: NimieDb) {
 
         val chat = GrpcClient.replyToStatus(encryptedReply, userId, statusId, status.userName)
 
-        conversationDao.insert(chat)
+        conversationDao.insert(chat.copy(lastText = replyBytes))
 
         return chat
     }
