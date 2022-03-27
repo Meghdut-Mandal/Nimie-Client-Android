@@ -1,10 +1,10 @@
 package com.meghdut.nimie.ui
 
 import android.os.Bundle
-import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.*
+import androidx.lifecycle.LifecycleObserver
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.load
@@ -37,6 +37,7 @@ class ChatActivity : AppCompatActivity(R.layout.activity_chat), LifecycleObserve
 
         viewModel.getMessages(conversationId).observe(this) {
             it?.let {
+                binding.loadingTv.visibility = View.GONE
                 adapter.submitData(lifecycle, it)
             }
         }
@@ -55,6 +56,10 @@ class ChatActivity : AppCompatActivity(R.layout.activity_chat), LifecycleObserve
             val text = binding.msgText.text.trim().toString()
             binding.msgText.setText("")
             viewModel.sendMessage(text)
+        }
+
+        binding.imageBack.setOnClickListener {
+            onBackPressed()
         }
 
     }
