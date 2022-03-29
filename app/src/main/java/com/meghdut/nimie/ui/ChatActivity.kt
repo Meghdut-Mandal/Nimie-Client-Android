@@ -55,7 +55,9 @@ class ChatActivity : AppCompatActivity(R.layout.activity_chat), LifecycleObserve
         binding.sendIv.setOnClickListener {
             val text = binding.msgText.text.trim().toString()
             binding.msgText.setText("")
-            viewModel.sendMessage(text)
+            if (text.isNotBlank()){
+                viewModel.sendMessage(text)
+            }
         }
 
         binding.imageBack.setOnClickListener {
