@@ -9,9 +9,11 @@ import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.meghdut.nimie.R
 import com.meghdut.nimie.databinding.ActivitySplashBinding
-import com.meghdut.nimie.databinding.ItemOnboardingContainerBinding
 import com.meghdut.nimie.ui.model.SplashUIState
-import com.meghdut.nimie.ui.util.*
+import com.meghdut.nimie.ui.util.OnBoardingAdapter
+import com.meghdut.nimie.ui.util.SplashUtils
+import com.meghdut.nimie.ui.util.navigateTo
+import com.meghdut.nimie.ui.util.snackBar
 import com.meghdut.nimie.ui.viewmodel.SplashViewModel
 
 class SplashActivity : AppCompatActivity(R.layout.activity_splash) {

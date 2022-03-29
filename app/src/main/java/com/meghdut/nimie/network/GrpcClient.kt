@@ -12,7 +12,7 @@ import io.grpc.ManagedChannelBuilder
 
 object GrpcClient {
 
-    private val connectionString = "2.tcp.ngrok.io:17402".trim()
+    private val connectionString = "8.tcp.ngrok.io:12405".trim()
     private val split = connectionString.split(":")
     val name = split[0]
     private val port = split[1].toInt()
@@ -37,7 +37,12 @@ object GrpcClient {
         return user.userId
     }
 
-    fun createStatus(status: String, userId: Long, publicKey: ByteArray, name: String): LocalStatus {
+    fun createStatus(
+        status: String,
+        userId: Long,
+        publicKey: ByteArray,
+        name: String
+    ): LocalStatus {
         val created = stub.createStatus(
             CreateStatusRequest
                 .newBuilder()
@@ -80,7 +85,8 @@ object GrpcClient {
         otherName: String
     ): LocalConversation {
         val conversationCreated = stub.replyStatus(
-            InitiateConversationRequest.newBuilder().setReply(ByteString.copyFrom(reply)).setStatusId(statusId)
+            InitiateConversationRequest.newBuilder().setReply(ByteString.copyFrom(reply))
+                .setStatusId(statusId)
                 .setUserId(userId).build()
         )
         val timeNow = System.currentTimeMillis()
@@ -115,12 +121,28 @@ object GrpcClient {
         }
     }
 
+    fun sendInitialExchangeRequest(conversationId: Long, aesKey: ByteArray) {
+        val initialExchangeKey = stub.initialExchangeKey(
+            InitialKeyExchangeRequest.newBuilder().setAesKey(ByteString.copyFrom(aesKey))
+                .setConversationId(conversationId).build()
+        )
+
+        println("Sent the Key Exchange Request ${initialExchangeKey.message}")
+    }
+
+    fun exchangeKeyRequest(conversationId: Long): ByteArray {
+        val finalExchangeKeyResponse = stub.finalExchangeKey(
+            FinalKeyExchangeRequest.newBuilder().setConversationId(conversationId).build()
+        )
+
+        return finalExchangeKeyResponse.aesKey.toByteArray()
+    }
 
     fun startChatConversation(
         userId: Long,
         conversationId: Long,
         handler: (ChatMessage) -> Unit
-    ): MessagingClient = GrpcMessageClientImpl(userId, channel, conversationId,handler)
+    ): MessagingClient = GrpcMessageClientImpl(userId, channel, conversationId, handler)
 
 
 }

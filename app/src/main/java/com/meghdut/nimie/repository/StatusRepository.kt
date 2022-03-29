@@ -6,6 +6,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
 import com.meghdut.nimie.data.dao.NimieDb
+import com.meghdut.nimie.data.model.ConversationKeyEntry
 import com.meghdut.nimie.data.model.LocalConversation
 import com.meghdut.nimie.data.model.LocalStatus
 import com.meghdut.nimie.network.GrpcClient
@@ -15,7 +16,6 @@ import kotlinx.coroutines.Dispatchers
 class StatusRepository(db: NimieDb) {
     private val statusDao = db.statusDao()
     private val userDao = db.userDao()
-    private val messageCache = db.getSqlCacheDao()
     private val conversationDao = db.conversationDao()
 
 
@@ -28,14 +28,20 @@ class StatusRepository(db: NimieDb) {
         val status = statusDao.getStatusById(statusId)
 
         val replyBytes = reply.toByteArray()
+        val aesKey = CryptoUtils.generateAESKey()
 
-        val encryptedReply = CryptoUtils.encrypt(replyBytes, status.publicKey)
+        val encryptedReply = CryptoUtils.encryptAES(replyBytes, aesKey)
 
-        messageCache.put(encryptedReply,replyBytes)
+        val encryptedKey = CryptoUtils.encryptRSA(aesKey,status.publicKey)
 
         val chat = GrpcClient.replyToStatus(encryptedReply, userId, statusId, status.userName)
 
+        GrpcClient.sendInitialExchangeRequest(chat.conversationId,encryptedKey)
+
+        conversationDao.insert(ConversationKeyEntry(chat.conversationId,aesKey))
+
         conversationDao.insert(chat.copy(lastText = replyBytes))
+
 
         return chat
     }

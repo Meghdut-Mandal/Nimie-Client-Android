@@ -87,18 +87,6 @@ dependencies {
     implementation 'androidx.activity:activity-ktx:1.4.0'
     // Integration with fragments
     implementation 'androidx.fragment:fragment-ktx:1.4.1'
-    // Compose Material Design
-    implementation 'androidx.compose.material:material:1.1.1'
-    // Animations
-    implementation 'androidx.compose.animation:animation:1.1.1'
-    // Tooling support (Previews, etc.)
-    implementation 'androidx.compose.ui:ui-tooling:1.1.1'
-    // Integration with ViewModels
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1'
-
-    implementation "androidx.compose.material3:material3:1.0.0-alpha07"
-    implementation "com.google.accompanist:accompanist-insets:0.21.3-beta"
-
 
     // Room for storing location data and observing it via Flow
     def room_version = "2.4.2"
@@ -144,9 +132,5 @@ dependencies {
 
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.romandanylyk:pageindicatorview:1.0.3'
-
-// https://mvnrepository.com/artifact/com.madgag.spongycastle/prov
-    implementation 'com.madgag.spongycastle:prov:1.58.0.0'
-
 
 }

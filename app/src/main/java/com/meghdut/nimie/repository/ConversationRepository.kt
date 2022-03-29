@@ -7,6 +7,7 @@ import androidx.paging.PagingData
 import androidx.paging.liveData
 import com.meghdut.nimie.data.dao.NimieDb
 import com.meghdut.nimie.data.model.ChatMessage
+import com.meghdut.nimie.data.model.ConversationKeyEntry
 import com.meghdut.nimie.data.model.LocalConversation
 import com.meghdut.nimie.network.GrpcClient
 import com.meghdut.nimie.network.MessagingClient
@@ -17,8 +18,6 @@ class ConversationRepository(db: NimieDb) {
     private val conversationDao = db.conversationDao()
     private val chatDao = db.chatDao()
     private val userDao = db.userDao()
-    private val messageCache = db.getSqlCacheDao()
-
     private val chatClients = mutableMapOf<Long, MessagingClient>()
     private val conversationCache = mutableMapOf<Long, LocalConversation>()
 
@@ -34,15 +33,26 @@ class ConversationRepository(db: NimieDb) {
 
     suspend fun loadConversations(userId: Long) {
         val conversationList = GrpcClient.getConversationList(userId).map {
-            if (messageCache.contains(it.lastText.hashCode())){
-                return@map it.copy(lastText = messageCache.getEntry(it.lastText))
-            }else {
-                val currentUser = userDao.getActiveUser()
-                val decryptedText = CryptoUtils.decrypt(it.lastText,currentUser.privateKey)
-                return@map it.copy(lastText = decryptedText)
+
+            if (!conversationDao.hasConversationKey(it.conversationId)) {
+                getConversationKey(it.conversationId)
             }
+
+            val aesKey = conversationDao.getAESKey(it.conversationId)
+
+            val decryptedText = CryptoUtils.decryptAES(it.lastText, aesKey)
+            return@map it.copy(lastText = decryptedText)
         }
+
         conversationDao.insertAll(conversationList)
+    }
+
+    private fun getConversationKey(conversationId: Long) {
+        val encodedAesKey = GrpcClient.exchangeKeyRequest(conversationId)
+        val myPrivateKey = userDao.getActiveUser().privateKey
+        val decryptedAesKey = CryptoUtils.decryptRSA(encodedAesKey, myPrivateKey)
+
+        conversationDao.insert(ConversationKeyEntry(conversationId, decryptedAesKey))
     }
 
     fun getMessages(conversationId: Long): LiveData<PagingData<ChatMessage>> {
@@ -90,24 +100,16 @@ class ConversationRepository(db: NimieDb) {
     }
 
     private fun ChatMessage.decryptMessage(): ChatMessage {
-        val currentActiveUser = userDao.getActiveUser()
+        val aesKey = conversationDao.getAESKey(conversationId)
 
-        if (userId == 0L) {
-        // if the message was sent by us look for it in the cache
-            return copy(message = messageCache.getEntry(message))
-        }
-
-        val decryptedMessage = CryptoUtils.decrypt(message, currentActiveUser.privateKey)
+        val decryptedMessage = CryptoUtils.decryptAES(message, aesKey)
 
         return copy(message = decryptedMessage)
     }
 
     private fun ChatMessage.encryptMessage(): ChatMessage {
-        val conversation = getConversation(conversationId)
-        val encryptedMessage = CryptoUtils.encrypt(message, conversation.otherPublicKey)
-
-        // add the message to cache
-        messageCache.put(encryptedMessage,message)
+        val aesKey = conversationDao.getAESKey(conversationId)
+        val encryptedMessage = CryptoUtils.encryptAES(message, aesKey)
 
         return copy(message = encryptedMessage)
     }

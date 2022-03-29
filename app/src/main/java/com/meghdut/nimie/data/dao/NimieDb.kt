@@ -12,7 +12,7 @@ import com.meghdut.nimie.data.model.*
         LocalConversation::class,
         ChatMessage::class,
         LocalStatus::class,
-        CacheEntry::class], version = 3
+        ConversationKeyEntry::class], version = 3
 )
 abstract class NimieDb : RoomDatabase() {
 
@@ -23,8 +23,6 @@ abstract class NimieDb : RoomDatabase() {
     abstract fun conversationDao(): ConversationDao
 
     abstract fun statusDao(): StatusDao
-
-    abstract fun getSqlCacheDao() : SQLCacheDao
 
     companion object {
 

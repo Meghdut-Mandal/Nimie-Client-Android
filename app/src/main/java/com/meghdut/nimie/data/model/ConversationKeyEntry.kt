@@ -4,28 +4,28 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "cache_entry")
-data class CacheEntry(
+
+@Entity(tableName = "conversation_keys")
+data class ConversationKeyEntry(
     @PrimaryKey
-    val hashKey: Int,
+    val conversationId:Long,
     @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
-    val data: ByteArray
-) {
+    val aesKey:ByteArray) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as CacheEntry
+        other as ConversationKeyEntry
 
-        if (hashKey != other.hashKey) return false
-        if (!data.contentEquals(other.data)) return false
+        if (conversationId != other.conversationId) return false
+        if (!aesKey.contentEquals(other.aesKey)) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        var result = hashKey
-        result = 31 * result + data.contentHashCode()
+        var result = conversationId.hashCode()
+        result = 31 * result + aesKey.contentHashCode()
         return result
     }
 }
