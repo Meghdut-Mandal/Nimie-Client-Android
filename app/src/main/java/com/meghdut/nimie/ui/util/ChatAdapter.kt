@@ -10,15 +10,17 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.meghdut.nimie.R
+import com.meghdut.nimie.data.image.ImageCache
 import com.meghdut.nimie.data.model.ChatMessage
 import com.meghdut.nimie.data.model.ContentType
 import com.meghdut.nimie.databinding.ItemInMsgBinding
 import com.meghdut.nimie.databinding.ItemOutMsgBinding
 
-class ChatAdapter : PagingDataAdapter<ChatMessage, GenericViewModel>(diffUtil()) {
+class ChatAdapter(val imageCache: ImageCache) : PagingDataAdapter<ChatMessage, GenericViewModel>(diffUtil()) {
 
     private val VIEW_TYPE_OUTGOING = 0
     private val VIEW_TYPE_RECEIVED = 1
+
 
 
     override fun onBindViewHolder(holder: GenericViewModel, position: Int) {
@@ -29,6 +31,7 @@ class ChatAdapter : PagingDataAdapter<ChatMessage, GenericViewModel>(diffUtil())
     }
 
     private fun bindInMsg(holder: GenericViewModel, position: Int) {
+
         val bind = ItemInMsgBinding.bind(holder.itemView)
         val item = getItem(position)!!
         fun setItemLayoutBackground() {
@@ -84,13 +87,7 @@ class ChatAdapter : PagingDataAdapter<ChatMessage, GenericViewModel>(diffUtil())
         fun handleMediaMessage(message: ChatMessage) {
             if (message.contentType == ContentType.IMG) {
                 bind.imageMessageIv.visibility = View.VISIBLE
-                bind.imageMessageIv.load(
-                    BitmapFactory.decodeByteArray(
-                        message.message,
-                        0,
-                        message.message.size
-                    )
-                ) {
+                bind.imageMessageIv.load(imageCache.getImageFile(message.textMessage)) {
                     placeholder(R.drawable.shape_image_place_holder_bg)
                 }
                 bind.imageMessageIv.isEnabled = true
@@ -169,13 +166,7 @@ class ChatAdapter : PagingDataAdapter<ChatMessage, GenericViewModel>(diffUtil())
         fun handleMediaMessage(message: ChatMessage) {
             if (message.contentType == ContentType.IMG) {
                 bind.imageMessageIv.visibility = View.VISIBLE
-                bind.imageMessageIv.load(
-                    BitmapFactory.decodeByteArray(
-                        message.message,
-                        0,
-                        message.message.size
-                    )
-                ) {
+                bind.imageMessageIv.load(imageCache.getImageFile(message.textMessage)) {
                     placeholder(R.drawable.shape_image_place_holder_bg)
                 }
                 bind.imageMessageIv.isEnabled = true

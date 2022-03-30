@@ -1,7 +1,6 @@
 package com.meghdut.nimie.ui
 
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -12,16 +11,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.load
 import com.meghdut.nimie.R
+import com.meghdut.nimie.data.image.ImageCache
 import com.meghdut.nimie.databinding.ActivityChatBinding
 import com.meghdut.nimie.ui.util.ChatAdapter
 import com.meghdut.nimie.ui.util.avatar
 import com.meghdut.nimie.ui.viewmodel.ChatViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.InputStream
+import javax.inject.Inject
 
 
+@AndroidEntryPoint
 class ChatActivity : AppCompatActivity(R.layout.activity_chat), LifecycleObserver {
     val viewModel: ChatViewModel by viewModels()
     private val binding by viewBinding(ActivityChatBinding::bind)
+
+    @Inject
+    lateinit var imageCache: ImageCache
 
     companion object {
         const val CONVERSATION_ID = "convid"
@@ -29,11 +35,10 @@ class ChatActivity : AppCompatActivity(R.layout.activity_chat), LifecycleObserve
 
     val PICK_IMAGES_REQUEST = 1
 
-
-    private val adapter = ChatAdapter()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val adapter  = ChatAdapter(imageCache)
         val llm = LinearLayoutManager(this)
         llm.stackFromEnd = true
         binding.msgRv.layoutManager = llm

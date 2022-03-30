@@ -15,7 +15,9 @@ import com.meghdut.nimie.ui.util.SplashUtils
 import com.meghdut.nimie.ui.util.navigateTo
 import com.meghdut.nimie.ui.util.snackBar
 import com.meghdut.nimie.ui.viewmodel.SplashViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SplashActivity : AppCompatActivity(R.layout.activity_splash) {
     private val viewModel: SplashViewModel by viewModels()
     private val binding by viewBinding(ActivitySplashBinding::bind)
