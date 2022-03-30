@@ -1,6 +1,7 @@
 package com.meghdut.nimie.ui.viewmodel
 
 import android.app.Application
+import android.graphics.Bitmap
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,6 +13,7 @@ import com.meghdut.nimie.data.model.LocalConversation
 import com.meghdut.nimie.repository.ConversationRepository
 import com.meghdut.nimie.repository.UserRepository
 import com.meghdut.nimie.ui.util.ioTask
+import java.io.ByteArrayOutputStream
 
 class ChatViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -31,6 +33,25 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
             text.toByteArray(),
             false,
             ContentType.TXT,
+            0,
+            0
+        )
+        conversationRepository.sendMessage(chatMessage)
+    }
+
+    fun sendImageMessage(image:Bitmap) = ioTask {
+        val localConversation = currentConversation.value ?: return@ioTask
+
+        val stream = ByteArrayOutputStream()
+        image.compress(Bitmap.CompressFormat.PNG, 100, stream)
+        val imageBytes: ByteArray = stream.toByteArray()
+        image.recycle()
+        val chatMessage = ChatMessage(
+            localConversation.conversationId,
+            0,
+            imageBytes,
+            false,
+            ContentType.IMG,
             0,
             0
         )

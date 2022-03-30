@@ -1,5 +1,6 @@
 package com.meghdut.nimie.ui.util
 
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +8,7 @@ import android.widget.RelativeLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.meghdut.nimie.R
 import com.meghdut.nimie.data.model.ChatMessage
 import com.meghdut.nimie.data.model.ContentType
@@ -79,11 +81,35 @@ class ChatAdapter : PagingDataAdapter<ChatMessage, GenericViewModel>(diffUtil())
             }
         }
 
+        fun handleMediaMessage(message: ChatMessage) {
+            if (message.contentType == ContentType.IMG) {
+                bind.imageMessageIv.visibility = View.VISIBLE
+                bind.imageMessageIv.load(
+                    BitmapFactory.decodeByteArray(
+                        message.message,
+                        0,
+                        message.message.size
+                    )
+                ) {
+                    placeholder(R.drawable.shape_image_place_holder_bg)
+                }
+                bind.imageMessageIv.isEnabled = true
+                bind.tvTime.visibility = View.VISIBLE
+                bind.loadingProgress.visibility = View.GONE
+            } else {
+                bind.loadingProgress.visibility = View.GONE
+                bind.imageMessageIv.visibility = View.GONE
+            }
+        }
+
+
+
         bind.tvTime.text =
             holder.itemView.context.getDisplayableDateOfGivenTimeStamp(item.createTime, true)
 
         setItemLayoutBackground()
         handleMessageText(item)
+        handleMediaMessage(item)
     }
 
     private fun bindOutMsg(holder: GenericViewModel, position: Int) {
@@ -140,8 +166,32 @@ class ChatAdapter : PagingDataAdapter<ChatMessage, GenericViewModel>(diffUtil())
             }
         }
 
+        fun handleMediaMessage(message: ChatMessage) {
+            if (message.contentType == ContentType.IMG) {
+                bind.imageMessageIv.visibility = View.VISIBLE
+                bind.imageMessageIv.load(
+                    BitmapFactory.decodeByteArray(
+                        message.message,
+                        0,
+                        message.message.size
+                    )
+                ) {
+                    placeholder(R.drawable.shape_image_place_holder_bg)
+                }
+                bind.imageMessageIv.isEnabled = true
+                bind.tvTime.visibility = View.VISIBLE
+                bind.loadingProgress.visibility = View.GONE
+            } else {
+                bind.loadingProgress.visibility = View.GONE
+                bind.imageMessageIv.visibility = View.GONE
+            }
+        }
+
         setItemLayoutBackground()
         handleMessageText(item)
+        handleMediaMessage(item)
+
+
         bind.tvTime.text =
             holder.itemView.context.getDisplayableDateOfGivenTimeStamp(item.createTime, true)
 

@@ -12,7 +12,7 @@ import com.meghdut.nimie.data.model.*
         LocalConversation::class,
         ChatMessage::class,
         LocalStatus::class,
-        ConversationKeyEntry::class], version = 3
+        ConversationKeyEntry::class], version = 5
 )
 abstract class NimieDb : RoomDatabase() {
 

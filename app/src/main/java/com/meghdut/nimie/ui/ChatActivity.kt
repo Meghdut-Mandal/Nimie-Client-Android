@@ -1,5 +1,8 @@
 package com.meghdut.nimie.ui
 
+import android.content.Intent
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
@@ -13,6 +16,8 @@ import com.meghdut.nimie.databinding.ActivityChatBinding
 import com.meghdut.nimie.ui.util.ChatAdapter
 import com.meghdut.nimie.ui.util.avatar
 import com.meghdut.nimie.ui.viewmodel.ChatViewModel
+import java.io.InputStream
+
 
 class ChatActivity : AppCompatActivity(R.layout.activity_chat), LifecycleObserver {
     val viewModel: ChatViewModel by viewModels()
@@ -21,6 +26,8 @@ class ChatActivity : AppCompatActivity(R.layout.activity_chat), LifecycleObserve
     companion object {
         const val CONVERSATION_ID = "convid"
     }
+
+    val PICK_IMAGES_REQUEST = 1
 
 
     private val adapter = ChatAdapter()
@@ -52,10 +59,14 @@ class ChatActivity : AppCompatActivity(R.layout.activity_chat), LifecycleObserve
             }
         }
 
+        binding.openCamera.setOnClickListener {
+            openGalleryChooser()
+        }
+
         binding.sendIv.setOnClickListener {
             val text = binding.msgText.text.trim().toString()
             binding.msgText.setText("")
-            if (text.isNotBlank()){
+            if (text.isNotBlank()) {
                 viewModel.sendMessage(text)
             }
         }
@@ -64,6 +75,36 @@ class ChatActivity : AppCompatActivity(R.layout.activity_chat), LifecycleObserve
             onBackPressed()
         }
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK) {
+            when (requestCode) {
+                PICK_IMAGES_REQUEST -> {
+                    val mediaUri: Uri = data?.data!!
+                    val inputStream: InputStream? =
+                        baseContext.contentResolver.openInputStream(mediaUri)
+                    val bm = BitmapFactory.decodeStream(inputStream)!!
+                    viewModel.sendImageMessage(bm)
+                }
+            }
+        }
+    }
+
+    private fun openGalleryChooser() {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        startActivityForResult(intent, PICK_IMAGES_REQUEST)
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val conversationId = intent.getLongExtra(CONVERSATION_ID, 0)
+        viewModel.openConversation(conversationId)
     }
 
     override fun onStop() {

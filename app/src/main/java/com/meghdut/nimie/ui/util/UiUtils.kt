@@ -3,7 +3,10 @@ package com.meghdut.nimie.ui.util
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.view.View
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -92,6 +95,28 @@ fun Context.getDisplayableDateOfGivenTimeStamp(
     } else dateString
 
     // if more than yesterday
+}
+
+fun hasPermissionInManifest(
+    activity: Activity?,
+    requestCode: Int,
+    permissionName: String
+): Boolean {
+    if (ContextCompat.checkSelfPermission(
+            activity!!,
+            permissionName
+        )
+        != PackageManager.PERMISSION_GRANTED
+    ) {
+        // No explanation needed, we can request the permission.
+        ActivityCompat.requestPermissions(
+            activity, arrayOf(permissionName),
+            requestCode
+        )
+    } else {
+        return true
+    }
+    return false
 }
 
 
