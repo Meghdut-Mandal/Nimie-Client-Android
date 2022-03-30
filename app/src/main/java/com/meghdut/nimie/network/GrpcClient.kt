@@ -12,7 +12,7 @@ import io.grpc.ManagedChannelBuilder
 
 object GrpcClient {
 
-    private val connectionString = "2.tcp.ngrok.io:10551".trim()
+    private val connectionString = "2.tcp.ngrok.io:18093".trim()
     private val split = connectionString.split(":")
     val name = split[0]
     private val port = split[1].toInt()
@@ -143,6 +143,21 @@ object GrpcClient {
         conversationId: Long,
         handler: (ChatMessage) -> Unit
     ): MessagingClient = GrpcMessageClientImpl(userId, channel, conversationId, handler)
+
+    fun sendMessage(userId: Long, chatMessage: ChatMessage): ChatMessage {
+        val apiMessage = ApiTextMessage.newBuilder()
+            .setMessage(ByteString.copyFrom(chatMessage.message))
+            .setConversationId(chatMessage.conversationId)
+            .setUserId(userId)
+            .setContentType(chatMessage.contentType)
+        val sendChatMessage = stub.sendChatMessage(apiMessage.build())
+
+        return chatMessage.copy(
+            userId = 0,
+            messageId = sendChatMessage.messages.messageId,
+            createTime = sendChatMessage.messages.createTime
+        )
+    }
 
 
 }

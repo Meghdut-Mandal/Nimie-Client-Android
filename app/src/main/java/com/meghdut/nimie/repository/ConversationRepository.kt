@@ -16,9 +16,8 @@ import com.meghdut.nimie.network.MessagingClient
 import com.meghdut.nimie.ui.util.CryptoUtils
 import com.meghdut.nimie.ui.util.time
 import kotlinx.coroutines.Dispatchers
-import javax.inject.Inject
 
-class ConversationRepository(val db: NimieDb,val  imageCache: ImageCache) {
+class ConversationRepository(val db: NimieDb, val imageCache: ImageCache) {
     private val conversationDao = db.conversationDao()
     private val chatDao = db.chatDao()
     private val userDao = db.userDao()
@@ -79,15 +78,7 @@ class ConversationRepository(val db: NimieDb,val  imageCache: ImageCache) {
     fun openConversation(userId: Long, conversationId: Long) {
         val client = GrpcClient.startChatConversation(userId, conversationId) {
             val decryptedMessage = it.decryptMessage()
-            if (decryptedMessage.contentType == ContentType.IMG) {
-                // if it's a image message
-                val cacheImageName = imageCache.cacheImage(decryptedMessage.message)
-                val imageMessage = decryptedMessage.copy(message = cacheImageName.toByteArray())
-                chatDao.insert(imageMessage)
-            } else {
-                // if its a text message
-                chatDao.insert(decryptedMessage)
-            }
+            addMsgToDb(decryptedMessage)
         }
         val lastMessageId = chatDao.getLatestMessageId(conversationId) ?: 0
         client.syncMessages(lastMessageId)
@@ -95,21 +86,35 @@ class ConversationRepository(val db: NimieDb,val  imageCache: ImageCache) {
         chatClients[conversationId] = client
     }
 
+    private fun addMsgToDb(decryptedMessage: ChatMessage) {
+        if (decryptedMessage.contentType == ContentType.IMG) {
+            // if it's a image message
+            val cacheImageName = imageCache.cacheImage(decryptedMessage.message)
+            val imageMessage = decryptedMessage.copy(message = cacheImageName.toByteArray())
+            chatDao.insert(imageMessage)
+        } else {
+            // if its a text message
+            chatDao.insert(decryptedMessage)
+        }
+    }
+
     /*
      This function only handles messages being sent out by the current client.
      */
-    fun sendMessage(chatMessage: ChatMessage) {
+    fun sendMessage(userId: Long, chatMessage: ChatMessage) {
 
-        val msg = time {
+        val unencryptedContent = chatMessage.message
+        val encryptedMessage = time {
             return@time chatMessage.encryptMessage()
         }
 
-        println("Encrypted!  ")
-        time {
-            chatClients[chatMessage.conversationId]?.sendMessage(msg)
+        val recievedMsg = time {
+            return@time GrpcClient.sendMessage(userId, encryptedMessage)
         }
-
         println("Sending done ")
+
+        val unencryptedMessage = recievedMsg.copy(message = unencryptedContent)
+       addMsgToDb(unencryptedMessage)
     }
 
     fun closeConversation(conversationId: Long) {

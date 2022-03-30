@@ -35,7 +35,7 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
             0,
             0
         )
-        conversationRepository.sendMessage(chatMessage)
+        conversationRepository.sendMessage(currentActiveUser.userId,chatMessage)
     }
 
     fun sendImageMessage(imageBytes:ByteArray) = ioTask {
@@ -49,7 +49,7 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
             0,
             0
         )
-        conversationRepository.sendMessage(chatMessage)
+        conversationRepository.sendMessage(currentActiveUser.userId,chatMessage)
     }
 
     fun openConversation(convid: Long) = ioTask {
