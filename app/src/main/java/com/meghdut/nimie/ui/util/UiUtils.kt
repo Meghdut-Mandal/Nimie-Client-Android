@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -66,6 +67,15 @@ fun AndroidViewModel.ioTask(func: suspend () -> Unit) {
     viewModelScope.launch(Dispatchers.IO) {
         func()
     }
+}
+
+fun <T> time(timeFunc : () -> T): T {
+    val time1= System.currentTimeMillis()
+   val t=  timeFunc()
+    val time2= System.currentTimeMillis()
+
+    println(" The time in mili sec = ${time2-time1}")
+    return t
 }
 
 

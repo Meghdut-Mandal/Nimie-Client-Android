@@ -79,14 +79,18 @@ class ChatActivity : AppCompatActivity(R.layout.activity_chat), LifecycleObserve
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        val conversationId = intent.getLongExtra(CONVERSATION_ID, 0)
+        viewModel.openConversation(conversationId)
         if (resultCode == RESULT_OK) {
             when (requestCode) {
                 PICK_IMAGES_REQUEST -> {
                     val mediaUri: Uri = data?.data!!
                     val inputStream: InputStream? =
                         baseContext.contentResolver.openInputStream(mediaUri)
-                    val bm = BitmapFactory.decodeStream(inputStream)!!
-                    viewModel.sendImageMessage(bm)
+                    inputStream?.use {
+                        val readBytes = it.readBytes()
+                        viewModel.sendImageMessage(readBytes)
+                    }
                 }
             }
         }
@@ -103,8 +107,6 @@ class ChatActivity : AppCompatActivity(R.layout.activity_chat), LifecycleObserve
 
     override fun onResume() {
         super.onResume()
-        val conversationId = intent.getLongExtra(CONVERSATION_ID, 0)
-        viewModel.openConversation(conversationId)
     }
 
     override fun onStop() {

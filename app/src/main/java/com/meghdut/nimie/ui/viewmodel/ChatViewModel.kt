@@ -39,13 +39,8 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
         conversationRepository.sendMessage(chatMessage)
     }
 
-    fun sendImageMessage(image:Bitmap) = ioTask {
+    fun sendImageMessage(imageBytes:ByteArray) = ioTask {
         val localConversation = currentConversation.value ?: return@ioTask
-
-        val stream = ByteArrayOutputStream()
-        image.compress(Bitmap.CompressFormat.PNG, 100, stream)
-        val imageBytes: ByteArray = stream.toByteArray()
-        image.recycle()
         val chatMessage = ChatMessage(
             localConversation.conversationId,
             0,

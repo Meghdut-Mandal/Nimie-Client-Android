@@ -12,6 +12,7 @@ import com.meghdut.nimie.data.model.LocalConversation
 import com.meghdut.nimie.network.GrpcClient
 import com.meghdut.nimie.network.MessagingClient
 import com.meghdut.nimie.ui.util.CryptoUtils
+import com.meghdut.nimie.ui.util.time
 import kotlinx.coroutines.Dispatchers
 
 class ConversationRepository(db: NimieDb) {
@@ -92,7 +93,16 @@ class ConversationRepository(db: NimieDb) {
      This function only handles messages being sent out by the current client.
      */
     fun sendMessage(chatMessage: ChatMessage) {
-        chatClients[chatMessage.conversationId]?.sendMessage(chatMessage.encryptMessage())
+        val msg= time {
+          return@time chatMessage.encryptMessage()
+        }
+
+        println("Encrypted!  ")
+        time {
+            chatClients[chatMessage.conversationId]?.sendMessage(msg)
+        }
+
+        println("Sending done ")
     }
 
     fun closeConversation(conversationId: Long) {
